@@ -13,10 +13,10 @@ public class Report {
         String[] cmd;
         if (os.startsWith("Windows")) {
             cmd = new String[]{"cmd", "-/c", String.format("allure generate %s -o %s %s",
-                    "result/allure-results", "result/allure-report", clean ? "--clean" : "")};
+                    "allure-results", "allure-report", clean ? "--clean" : "")};
         }else{
             cmd = new String[]{"/bin/sh", "-c", String.format("allure generate %s -o %s %s",
-                    "result/allure-results", "result/allure-report", clean ? "--clean" : "")};
+                    "allure-results", "allure-report", clean ? "--clean" : "")};
         }
         Runtime.getRuntime().exec(cmd);
     }
