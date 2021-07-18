@@ -1,0 +1,35 @@
+{
+  "uid" : "83edc06c07f9ae9e47eb6dd1b683e4e2",
+  "name" : "packages",
+  "children" : [ {
+    "name" : "src.test.resources.features.search_feature.百度搜索",
+    "children" : [ {
+      "name" : "搜索pytest",
+      "uid" : "189c26a132416ee5",
+      "parentUid" : "370f9699c1ae203b702e51de475f83cc",
+      "status" : "failed",
+      "time" : {
+        "start" : 1626626234984,
+        "stop" : 1626626241824,
+        "duration" : 6840
+      },
+      "flaky" : false,
+      "newFailed" : false,
+      "parameters" : [ ]
+    }, {
+      "name" : "搜索2pytest",
+      "uid" : "78f5cbecc37644d8",
+      "parentUid" : "370f9699c1ae203b702e51de475f83cc",
+      "status" : "passed",
+      "time" : {
+        "start" : 1626626242138,
+        "stop" : 1626626252428,
+        "duration" : 10290
+      },
+      "flaky" : false,
+      "newFailed" : false,
+      "parameters" : [ ]
+    } ],
+    "uid" : "src.test.resources.features.search_feature.百度搜索"
+  } ]
+}

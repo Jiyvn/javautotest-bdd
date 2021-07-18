@@ -1,0 +1,21 @@
+[ {
+  "uid" : "189c26a132416ee5",
+  "name" : "搜索pytest",
+  "time" : {
+    "start" : 1626626234984,
+    "stop" : 1626626241824,
+    "duration" : 6840
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "78f5cbecc37644d8",
+  "name" : "搜索2pytest",
+  "time" : {
+    "start" : 1626626242138,
+    "stop" : 1626626252428,
+    "duration" : 10290
+  },
+  "status" : "passed",
+  "severity" : "normal"
+} ]

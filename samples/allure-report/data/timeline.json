@@ -1,0 +1,69 @@
+{
+  "uid" : "ab17fc5a4eb3bca4b216b548c7f9fcbc",
+  "name" : "timeline",
+  "children" : [ {
+    "name" : "bl",
+    "children" : [ {
+      "name" : "16480@bl.main(1)",
+      "children" : [ {
+        "name" : "搜索2pytest",
+        "uid" : "78f5cbecc37644d8",
+        "parentUid" : "7ea9039f64a40eeca989a502cc348d6d",
+        "status" : "passed",
+        "time" : {
+          "start" : 1626626242138,
+          "stop" : 1626626252428,
+          "duration" : 10290
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      }, {
+        "name" : "搜索pytest",
+        "uid" : "189c26a132416ee5",
+        "parentUid" : "7ea9039f64a40eeca989a502cc348d6d",
+        "status" : "failed",
+        "time" : {
+          "start" : 1626626234984,
+          "stop" : 1626626241824,
+          "duration" : 6840
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "7ea9039f64a40eeca989a502cc348d6d"
+    }, {
+      "name" : "16876@bl.main(1)",
+      "children" : [ {
+        "name" : "搜索pytest",
+        "uid" : "d94ec582a4083ab4",
+        "parentUid" : "c4c1131ac0cbeb830dce02c3e2b406cd",
+        "status" : "failed",
+        "time" : {
+          "start" : 1626626111739,
+          "stop" : 1626626119707,
+          "duration" : 7968
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      }, {
+        "name" : "搜索2pytest",
+        "uid" : "abf85d8ac2e4160f",
+        "parentUid" : "c4c1131ac0cbeb830dce02c3e2b406cd",
+        "status" : "passed",
+        "time" : {
+          "start" : 1626626119987,
+          "stop" : 1626626130450,
+          "duration" : 10463
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "c4c1131ac0cbeb830dce02c3e2b406cd"
+    } ],
+    "uid" : "5880be5095e6d4b21ae46a955260a51c"
+  } ]
+}

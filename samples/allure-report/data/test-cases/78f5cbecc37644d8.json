@@ -1,0 +1,143 @@
+{
+  "uid" : "78f5cbecc37644d8",
+  "name" : "搜索2pytest",
+  "fullName" : "百度搜索: 搜索2pytest",
+  "historyId" : "6cdb4fd13a92b4331b1c35c3b2eaf809",
+  "time" : {
+    "start" : 1626626242138,
+    "stop" : 1626626252428,
+    "duration" : 10290
+  },
+  "description" : "\t    需求描述: 百度搜索http://www.baidu.com",
+  "descriptionHtml" : "<pre><code>    需求描述: 百度搜索http://www.baidu.com\n</code></pre>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "steps.Search.setUp(io.cucumber.java.Scenario)",
+    "time" : {
+      "start" : 1626626242151,
+      "stop" : 1626626242153,
+      "duration" : 2
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : false,
+    "stepsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0
+  } ],
+  "testStage" : {
+    "description" : "\t    需求描述: 百度搜索http://www.baidu.com",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Given  搜索词:pytest",
+      "time" : {
+        "start" : 1626626242154,
+        "stop" : 1626626242157,
+        "duration" : 3
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "hasContent" : false,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0
+    }, {
+      "name" : "When  打开百度，输入搜索词搜索",
+      "time" : {
+        "start" : 1626626242164,
+        "stop" : 1626626250924,
+        "duration" : 8760
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "hasContent" : false,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : true,
+    "stepsCount" : 2,
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0
+  },
+  "afterStages" : [ {
+    "name" : "steps.Search.tearDown()",
+    "time" : {
+      "start" : 1626626250925,
+      "stop" : 1626626252427,
+      "duration" : 1502
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : false,
+    "stepsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0
+  } ],
+  "labels" : [ {
+    "name" : "host",
+    "value" : "bl"
+  }, {
+    "name" : "thread",
+    "value" : "16480@bl.main(1)"
+  }, {
+    "name" : "feature",
+    "value" : "百度搜索"
+  }, {
+    "name" : "story",
+    "value" : "搜索2pytest"
+  }, {
+    "name" : "suite",
+    "value" : "百度搜索"
+  }, {
+    "name" : "testClass",
+    "value" : "搜索2pytest"
+  }, {
+    "name" : "framework",
+    "value" : "cucumber4jvm"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "gherkin_uri",
+    "value" : "file:///D:/IdeaProjects/javautotest-bdd/src/test/resources/features/search.feature"
+  }, {
+    "name" : "package",
+    "value" : "src.test.resources.features.search_feature.百度搜索"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ {
+      "uid" : "abf85d8ac2e4160f",
+      "status" : "passed",
+      "time" : {
+        "start" : 1626626119987,
+        "stop" : 1626626130450,
+        "duration" : 10463
+      }
+    } ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "78f5cbecc37644d8.json",
+  "parameterValues" : [ ]
+}

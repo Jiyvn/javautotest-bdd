@@ -1,0 +1,190 @@
+{
+  "uid" : "189c26a132416ee5",
+  "name" : "搜索pytest",
+  "fullName" : "百度搜索: 搜索pytest",
+  "historyId" : "f03db61568bdbf02033f5c162b81488",
+  "time" : {
+    "start" : 1626626234984,
+    "stop" : 1626626241824,
+    "duration" : 6840
+  },
+  "description" : "\t    需求描述: 百度搜索http://www.baidu.com",
+  "descriptionHtml" : "<pre><code>    需求描述: 百度搜索http://www.baidu.com\n</code></pre>\n",
+  "status" : "failed",
+  "statusMessage" : "java.lang.AssertionError",
+  "statusTrace" : "java.lang.AssertionError\r\n\tat steps.Search.open(Search.java:128)\r\n\tat ✽.打开(file:///D:/IdeaProjects/javautotest-bdd/src/test/resources/features/search.feature:8)\r\n",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "steps.Search.setUp(io.cucumber.java.Scenario)",
+    "time" : {
+      "start" : 1626626234984,
+      "stop" : 1626626235055,
+      "duration" : 71
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : false,
+    "stepsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0
+  } ],
+  "testStage" : {
+    "description" : "\t    需求描述: 百度搜索http://www.baidu.com",
+    "status" : "failed",
+    "statusMessage" : "java.lang.AssertionError",
+    "statusTrace" : "java.lang.AssertionError\r\n\tat steps.Search.open(Search.java:128)\r\n\tat ✽.打开(file:///D:/IdeaProjects/javautotest-bdd/src/test/resources/features/search.feature:8)\r\n",
+    "steps" : [ {
+      "name" : "Given  搜索词:pytest",
+      "time" : {
+        "start" : 1626626235066,
+        "stop" : 1626626235094,
+        "duration" : 28
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "hasContent" : false,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0
+    }, {
+      "name" : "And  浏览器:chrome",
+      "time" : {
+        "start" : 1626626235096,
+        "stop" : 1626626238390,
+        "duration" : 3294
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "hasContent" : false,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0
+    }, {
+      "name" : "When  打开百度，输入搜索词搜索",
+      "time" : {
+        "start" : 1626626238390,
+        "stop" : 1626626240706,
+        "duration" : 2316
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "hasContent" : false,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 0
+    }, {
+      "name" : "And  打开",
+      "time" : {
+        "start" : 1626626240707,
+        "stop" : 1626626240710,
+        "duration" : 3
+      },
+      "status" : "failed",
+      "statusMessage" : "java.lang.AssertionError",
+      "statusTrace" : "java.lang.AssertionError\r\n\tat steps.Search.open(Search.java:128)\r\n\tat ✽.打开(file:///D:/IdeaProjects/javautotest-bdd/src/test/resources/features/search.feature:8)\r\n",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "hasContent" : true,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : true,
+      "attachmentsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "hasContent" : true,
+    "stepsCount" : 4,
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 0
+  },
+  "afterStages" : [ {
+    "name" : "steps.Search.tearDown()",
+    "time" : {
+      "start" : 1626626240715,
+      "stop" : 1626626241821,
+      "duration" : 1106
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "f85984838de600d9",
+      "name" : "fail_screenshot",
+      "source" : "f85984838de600d9.png",
+      "type" : "image/png",
+      "size" : 32315
+    } ],
+    "parameters" : [ ],
+    "hasContent" : true,
+    "stepsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "attachmentsCount" : 1
+  } ],
+  "labels" : [ {
+    "name" : "host",
+    "value" : "bl"
+  }, {
+    "name" : "thread",
+    "value" : "16480@bl.main(1)"
+  }, {
+    "name" : "feature",
+    "value" : "百度搜索"
+  }, {
+    "name" : "story",
+    "value" : "搜索pytest"
+  }, {
+    "name" : "suite",
+    "value" : "百度搜索"
+  }, {
+    "name" : "testClass",
+    "value" : "搜索pytest"
+  }, {
+    "name" : "framework",
+    "value" : "cucumber4jvm"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "gherkin_uri",
+    "value" : "file:///D:/IdeaProjects/javautotest-bdd/src/test/resources/features/search.feature"
+  }, {
+    "name" : "package",
+    "value" : "src.test.resources.features.search_feature.百度搜索"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ {
+      "uid" : "d94ec582a4083ab4",
+      "status" : "failed",
+      "statusDetails" : "java.lang.AssertionError",
+      "time" : {
+        "start" : 1626626111739,
+        "stop" : 1626626119707,
+        "duration" : 7968
+      }
+    } ],
+    "categories" : [ {
+      "name" : "Product defects",
+      "matchedStatuses" : [ ],
+      "flaky" : false
+    } ],
+    "tags" : [ ]
+  },
+  "source" : "189c26a132416ee5.json",
+  "parameterValues" : [ ]
+}

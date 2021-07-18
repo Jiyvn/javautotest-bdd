@@ -1,0 +1,3 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"failed","Mon Jul 19 00:37:14 CST 2021","Mon Jul 19 00:37:21 CST 2021","6840","","百度搜索","","搜索pytest","","搜索pytest","	    需求描述: 百度搜索http://www.baidu.com"
+"passed","Mon Jul 19 00:37:22 CST 2021","Mon Jul 19 00:37:32 CST 2021","10290","","百度搜索","","搜索2pytest","","搜索2pytest","	    需求描述: 百度搜索http://www.baidu.com"
