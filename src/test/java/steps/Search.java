@@ -1,9 +1,11 @@
 package steps;
 
 import common.Browser;
-import common.Directory;
-import common.TestListener;
-import io.cucumber.java.*;
+//import io.cucumber.java.*;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import io.cucumber.java.Status;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
@@ -14,10 +16,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-//import io.cucumber.java.Scenario;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.*;
 
 import java.awt.*;
 import java.io.File;
@@ -28,8 +32,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
-//@Listeners(TestListener.class)
-//@Feature("search by baidu")
 public class Search {
     public static WebDriver driver;
     private String word;
@@ -38,12 +40,22 @@ public class Search {
     private DesiredCapabilities caps;
     private Scenario scenario;
 
-    @Before
     public void setUp(Scenario scenario) throws Exception{
+        String home = System.getenv("HOME")==null ? System.getenv("HOMEPATH"): System.getenv("HOME");
+        System.setProperty("webdriver.chrome.driver", home + "/webdrivers/chromedriver");
+        System.setProperty("webdriver.firefox.bin", "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox");
+        System.setProperty("webdriver.gecko.driver", home + "/webdrivers/geckodriver");
+        System.setProperty("webdriver.safari.driver", "/usr/bin/safaridriver");
         caps = DesiredCapabilities.firefox();
+//        FirefoxBinary fb = new FirefoxBinary(new File("/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox-bin"));
+//        FirefoxOptions options = new FirefoxOptions();
+//        options.setBinary(fb);
+//        driver = new FirefoxDriver(options);
+
         page = new Browser(caps);
         page.setBrowser("firefox").setOptions();
         this.scenario = scenario;
+
 
     }
 
@@ -52,7 +64,6 @@ public class Search {
         return screenShot;
     }
 
-    @After
     public void tearDown(){
         Status state = this.scenario.getStatus();
         if (state.equals(Status.FAILED)||state.equals(Status.UNDEFINED)){
@@ -99,6 +110,7 @@ public class Search {
         driver.findElement(new By.ById("kw")).sendKeys(word);
         driver.findElement(new By.ById("su")).click();
     }
+
     @And("浏览器:{word}")
     public void setBrowser(String browser) throws Exception {
         System.out.println("And -- 浏览器:"+browser);
@@ -127,4 +139,5 @@ public class Search {
     public void open(){
         assert 1==0;
     }
+
 }

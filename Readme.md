@@ -9,5 +9,8 @@ BDD model automation Framework (Java)
 - Cucumber
 - Allure
 
-
+## Run tests
+```shell s                                                                                                                                                                                                                                                                                                 cript
+mvn test
+```
 report sample: [allure-report](/samples/allure-report)
