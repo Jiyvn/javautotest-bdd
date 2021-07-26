@@ -10,15 +10,17 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import web.BrowserParam;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CucumberHooks {
-
+public class CucumberHooks extends BrowserParam {
+//    public static WebDriver driver;
     public Scenario scenario;
-    public Browser page;
-    public DesiredCapabilities caps;
+//    public static Browser Br;
+//    public static DesiredCapabilities caps;
+//    public static String defaultBrowser = "firefox";
 
     @Before
     public void beforeScenario(Scenario scenario) throws Exception {
@@ -27,12 +29,15 @@ public class CucumberHooks {
         System.setProperty("webdriver.firefox.bin", "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox");
         System.setProperty("webdriver.gecko.driver", home + "/webdrivers/geckodriver");
         System.setProperty("webdriver.safari.driver", "/usr/bin/safaridriver");
-        this.caps = DesiredCapabilities.firefox();
-        this.page = new Browser(caps);
-        this.page.setBrowser("firefox").setOptions();
+//        web.BrowserParam.caps = DesiredCapabilities.firefox();
+//        web.BrowserParam.Br = new Browser(web.BrowserParam.caps);
+//        web.BrowserParam.Br.setBrowser(web.BrowserParam.defaultBrowser).setOptions();
+        defaultBrowser = System.getProperty("browser", "firefox");
+        caps = new DesiredCapabilities();
+        Br = new Browser(caps);
+        Br.setBrowser(defaultBrowser).setOptions();
         this.scenario = scenario;
-        this.page.Start();
-
+//        page.Start();
 
     }
 
@@ -42,13 +47,15 @@ public class CucumberHooks {
         try{
 //            if (state.equals(Status.FAILED) || state.equals(Status.UNDEFINED)) {
             if (state.equals(Status.FAILED)) {
-                byte[] screenshot = ((TakesScreenshot) this.page.driver).getScreenshotAs(OutputType.BYTES);
+                byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 this.scenario.attach(screenshot, "image/png",
                         this.scenario.getName()+"_fail_" + new SimpleDateFormat("yyyyMMdd-HHmm-ss.SSS").format(new Date()));
             }
         }catch (WebDriverException e){
             e.printStackTrace();
         }
-        this.page.driver.quit();
+        driver.quit();
     }
 }
+
+

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Client {
 
-    public static WebDriver driver;
+    public WebDriver driver;
     public DesiredCapabilities desiredCaps = new DesiredCapabilities();
 
     public Client() {

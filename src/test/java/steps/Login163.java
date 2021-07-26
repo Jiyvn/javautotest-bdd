@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 import org.testng.asserts.Assertion;
 import utils.TestListener;
+import web.BrowserParam;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -24,10 +25,9 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
-public class Login163 extends Browser{
-//    public static WebDriver driver;
-    private Browser page = new Browser(driver);
-    private DesiredCapabilities caps;
+public class Login163 extends BrowserParam{
+//    private Browser page = new xxxPage(driver);
+    private Browser page = Br;
     private String mail;
     private String password;
 
@@ -43,7 +43,9 @@ public class Login163 extends Browser{
             IllegalAccessException, InvocationTargetException,
             InstantiationException, MalformedURLException, NoSuchFieldException,
             NoSuchMethodException, ClassNotFoundException {
-//        driver = page.Start();
+        if (driver==null) {
+            driver = page.Start();
+        }
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 //        WebDriverWait wait = new WebDriverWait(driver, 10L, 500L);
