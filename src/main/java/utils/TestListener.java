@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.*;
 import org.testng.annotations.AfterSuite;
 
+import java.io.File;
 import java.io.IOException;
 
 public class TestListener implements ITestListener {
@@ -16,7 +17,15 @@ public class TestListener implements ITestListener {
     public void onStart(ITestContext context) {
         ITestListener.super.onStart(context);
         log.info("context: "+context);
-
+//        File allureResultDir = new File(System.getProperty("user.dir")+"allure-results");
+//        if (allureResultDir.exists()){
+//            File[] files = allureResultDir.listFiles();
+//            if (files != null && files.length > 0) {
+//                for (File temp : files) {
+//                    temp.delete();
+//                }
+//            }
+//        }
     }
 
     @Override
@@ -30,6 +39,7 @@ public class TestListener implements ITestListener {
     public void onFinish(ITestContext context) {
         ITestListener.super.onFinish(context);
         try {
+//            Report.Seperate();
             Report.dumpReport();
         } catch (IOException e) {
             e.printStackTrace();

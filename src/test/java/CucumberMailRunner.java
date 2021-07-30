@@ -1,31 +1,17 @@
-import common.AppiumService;
-import common.Browser;
-import common.Report;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
-import io.cucumber.java.Status;
-import io.cucumber.testng.*;
-//import io.cucumber.testng.TestNGCucumberRunner;
-import io.qameta.allure.Epic;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.*;
+import org.testng.annotations.Listeners;
 import utils.TestListener;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+//import io.cucumber.testng.TestNGCucumberRunner;
 
 
 @Listeners(TestListener.class)
 @CucumberOptions(
-//        features = "src/test/resources/features/login163mail.feature",
-        features = "src/test/resources/features",
+        features = "src/test/resources/features/Search.feature",
+//        features = "src/test/resources/features",
         glue = "steps", monochrome = true,
         plugin = {
 //                "pretty",
@@ -36,10 +22,10 @@ import java.util.Date;
 //                "testng"
         }
 )
-public class CucumberRunner extends AbstractTestNGCucumberTests {
+public class CucumberMailRunner extends AbstractTestNGCucumberTests {
 
 //        private TestNGCucumberRunner testNGCucumberRunner;
-        public static Logger log = LoggerFactory.getLogger(CucumberRunner.class);
+        public static Logger log = LoggerFactory.getLogger(CucumberMailRunner.class);
 
 
 //        /**

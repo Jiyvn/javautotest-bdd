@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Search" parallel="classes">
-    <test verbose="2" name="searchTest">
+<suite name="Mail" parallel="classes">
+    <test verbose="2" name="mailTest">
         <classes>
-            <class name="CucumberSearchRunner"/>
+            <class name="CucumberMailRunner"/>
         </classes>
     </test>
 </suite>

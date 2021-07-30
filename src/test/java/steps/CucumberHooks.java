@@ -44,17 +44,19 @@ public class CucumberHooks extends BrowserParam {
     @After
     public void afterScenario(Scenario scenario) {
         Status state = this.scenario.getStatus();
-        try{
+        if (driver!=null) {
+            try {
 //            if (state.equals(Status.FAILED) || state.equals(Status.UNDEFINED)) {
-            if (state.equals(Status.FAILED)) {
-                byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-                this.scenario.attach(screenshot, "image/png",
-                        this.scenario.getName()+"_fail_" + new SimpleDateFormat("yyyyMMdd-HHmm-ss.SSS").format(new Date()));
+                if (state.equals(Status.FAILED)) {
+                    byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                    this.scenario.attach(screenshot, "image/png",
+                            this.scenario.getName() + "_fail_" + new SimpleDateFormat("yyyyMMdd-HHmm-ss.SSS").format(new Date()));
+                }
+            } catch (WebDriverException e) {
+                e.printStackTrace();
             }
-        }catch (WebDriverException e){
-            e.printStackTrace();
+            driver.quit();
         }
-        driver.quit();
     }
 }
 

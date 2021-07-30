@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>groupId</groupId>
-    <artifactId>javautotest</artifactId>
+    <artifactId>javautotest-bdd</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <utf-8>UTF-8</utf-8>
@@ -44,11 +44,21 @@
 <!--                        <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>-->
 <!--                    </suiteXmlFiles>-->
                     <includes>
-                        <include>**/CucumberRunner.java</include>
+                        <include>**/CucumberSearchRunner.java</include>
+                        <include>**/CucumberMailRunner.java</include>
                     </includes>
 <!--                    <testFailureIgnore>-->
 <!--                        true  &lt;!&ndash; for Cucumber &ndash;&gt;-->
 <!--                    </testFailureIgnore>-->
+                    <systemPropertyVariables>
+                        <propertyName>firefox</propertyName>
+                    </systemPropertyVariables>
+                    <properties>
+                        <property>
+                            <name>dataproviderthreadcount</name>
+                            <value>20</value>
+                        </property>
+                    </properties>
                 </configuration>
                 <dependencies>
                     <dependency>

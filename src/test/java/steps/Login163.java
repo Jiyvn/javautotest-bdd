@@ -25,12 +25,50 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
-public class Login163 extends BrowserParam{
+public class Login163{
 //    private Browser page = new xxxPage(driver);
-    private Browser page = Br;
+    private Browser page;
     private String mail;
     private String password;
+    private Scenario scenario;
+    private String defaultBrowser;
+    private WebDriver driver;
+    private DesiredCapabilities caps;
 
+    @Before("@163")
+    public void beforeScenario(Scenario scenario) throws Exception {
+        String home = System.getenv("HOME") == null ? System.getenv("HOMEPATH") : System.getenv("HOME");
+        System.setProperty("webdriver.chrome.driver", home + "/webdrivers/chromedriver");
+        System.setProperty("webdriver.firefox.bin", "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox");
+        System.setProperty("webdriver.gecko.driver", home + "/webdrivers/geckodriver");
+        System.setProperty("webdriver.safari.driver", "/usr/bin/safaridriver");
+//        web.BrowserParam.caps = DesiredCapabilities.firefox();
+//        web.BrowserParam.Br = new Browser(web.BrowserParam.caps);
+//        web.BrowserParam.Br.setBrowser(web.BrowserParam.defaultBrowser).setOptions();
+        defaultBrowser = System.getProperty("browser", "firefox");
+        caps = new DesiredCapabilities();
+        page = new Browser(caps);
+        page.setBrowser(defaultBrowser).setOptions();
+        this.scenario = scenario;
+//        page.Start();
+
+    }
+
+    @After("@163")
+    public void afterScenario(Scenario scenario) {
+        Status state = this.scenario.getStatus();
+        try{
+//            if (state.equals(Status.FAILED) || state.equals(Status.UNDEFINED)) {
+            if (state.equals(Status.FAILED)) {
+                byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                this.scenario.attach(screenshot, "image/png",
+                        this.scenario.getName()+"_fail_" + new SimpleDateFormat("yyyyMMdd-HHmm-ss.SSS").format(new Date()));
+            }
+        }catch (WebDriverException e){
+            e.printStackTrace();
+        }
+        driver.quit();
+    }
 
     @Given("用户：{word}，密码：{word}")
     public void setLoginInfo(String mail, String password) {
