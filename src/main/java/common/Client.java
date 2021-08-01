@@ -76,45 +76,62 @@ public class Client {
         }
     }
 
-    public WebElement get(By locator, String ec, long timeout, long frequency) throws
-            NoSuchMethodException, InvocationTargetException,
-            IllegalAccessException, InstantiationException {
+    public WebElement get(By locator, String ec, long timeout, long frequency) //throws
+//            NoSuchMethodException, InvocationTargetException,
+//            IllegalAccessException, InstantiationException {
+    {
         Class<?> cls = ExpectedConditions.class;
 //        Class<?> cls = Class.forName("org.openqa.selenium.support.ui.ExpectedConditions");
 //        Method func = cls.getMethod(ec, By.class);
-        Method func = cls.getDeclaredMethod(ec, By.class);
+        Method func = null;
+        try {
+            func = cls.getDeclaredMethod(ec, By.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
 //        func.getGenericReturnType();
 //        Method[] methods = cls.getMethods();
 //        Method[] methods = cls.getDeclaredFields();
+        WebElement element = null;
 
-        return (WebElement) new WebDriverWait(
-                this.driver, timeout, frequency
-        ).until((ExpectedCondition<Object>) func.invoke(null, locator));
+        try {
+            element = (WebElement) new WebDriverWait(
+                    this.driver, timeout, frequency
+            ).until((ExpectedCondition<Object>) func.invoke(null, locator));
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return element;
     }
-    public WebElement get(By locator,long timeout) throws
-            NoSuchMethodException, InvocationTargetException,
-            IllegalAccessException, InstantiationException {
+    public WebElement get(By locator,long timeout){ //throws
+//            NoSuchMethodException, InvocationTargetException,
+//            IllegalAccessException, InstantiationException {
         return this.get(locator, "visibilityOfElementLocated",  timeout, 500);
     }
 
-    public WebElement get(By locator) throws
-            NoSuchMethodException, InvocationTargetException,
-            IllegalAccessException, InstantiationException {
+//    public WebElement get(By locator) throws
+//            NoSuchMethodException, InvocationTargetException,
+//            IllegalAccessException, InstantiationException {
+    public WebElement get(By locator){
         return this.get(locator, 3);
     }
 
-    public boolean find(By locator, String ec, long timeout, long frequency) throws
-            NoSuchMethodException, InvocationTargetException,
-            IllegalAccessException {
+    public boolean find(By locator, String ec, long timeout, long frequency){ //throws
+//            NoSuchMethodException, InvocationTargetException,
+//            IllegalAccessException {
+        boolean found = false;
         try {
             Class<?> cls = ExpectedConditions.class;
             Method func = cls.getMethod(ec, By.class);
             new WebDriverWait(
                     this.driver, timeout, frequency
             ).until((ExpectedCondition<Object>) func.invoke(null, locator));
-            return true;
+            found = true;
         }catch (TimeoutException e){
-            return false;
+            found = false;
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
         }
+        return found;
     }
 }

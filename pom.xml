@@ -8,22 +8,26 @@
     <artifactId>javautotest-bdd</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <utf-8>UTF-8</utf-8>
+        <Encoding>UTF-8</Encoding>
         <cucumber.version>6.10.4</cucumber.version>
         <appium-java-client>7.5.0</appium-java-client>
         <maven-surefire-plugin>2.20</maven-surefire-plugin>
         <testng.version>7.4.0</testng.version>
+        <allure.version>2.14.0</allure.version>
         <aspectj.version>1.8.10</aspectj.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <threads>2</threads>
+<!--        <file>src/test/resources/default.xml</file>-->
     </properties>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
-                    <encoding>${utf-8}</encoding>
+                    <encoding>${Encoding}</encoding>
                     <source>8</source>
                     <target>8</target>
                 </configuration>
@@ -33,32 +37,34 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20</version>
                 <configuration>
+                    <testFailureIgnore>false</testFailureIgnore>
                     <argLine>
                         -Dfile.encoding=UTF-8
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                         -Dcucumber.options="--plugin io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"
                     </argLine>
-<!--                    <suiteXmlFiles>-->
-<!--&lt;!&ndash;                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <suiteXmlFile>testng1.xml</suiteXmlFile>&ndash;&gt;-->
+                    <suiteXmlFiles>
+<!--                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>-->
+<!--                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
+                        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>
 <!--                        <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>-->
-<!--                    </suiteXmlFiles>-->
-                    <includes>
-                        <include>**/CucumberSearchRunner.java</include>
-                        <include>**/CucumberMailRunner.java</include>
-                    </includes>
-<!--                    <testFailureIgnore>-->
-<!--                        true  &lt;!&ndash; for Cucumber &ndash;&gt;-->
-<!--                    </testFailureIgnore>-->
-                    <systemPropertyVariables>
-                        <propertyName>firefox</propertyName>
-                    </systemPropertyVariables>
-                    <properties>
-                        <property>
-                            <name>dataproviderthreadcount</name>
-                            <value>20</value>
-                        </property>
-                    </properties>
+<!--                        <suiteXmlFile>src/test/resources/mail163.xml</suiteXmlFile>-->
+                    </suiteXmlFiles>
+<!--                    <includes>-->
+<!--                        <include>**/CucumberSearchRunner.java</include>-->
+<!--                        <include>**/CucumberMailRunner.java</include>-->
+<!--                    </includes>-->
+<!--                    <systemPropertyVariables>-->
+<!--                        <propertyName>firefox</propertyName>-->
+<!--                    </systemPropertyVariables>-->
+<!--                    <properties>-->
+<!--                        <property>-->
+<!--                            <name>dataproviderthreadcount</name>-->
+<!--                            <value>20</value>-->
+<!--                            <name>suitethreadpoolsize</name>-->
+<!--                            <value>${threads}</value>-->
+<!--                        </property>-->
+<!--                    </properties>-->
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -67,6 +73,16 @@
                         <version>${aspectj.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-maven -->
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
+                <configuration>
+                    <reportVersion>${allure.version}</reportVersion>
+                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -144,18 +160,39 @@
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/io.cucumber/cucumber-core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.cucumber</groupId>-->
+<!--            <artifactId>cucumber-core</artifactId>-->
+<!--            <version>${cucumber.version}</version>-->
+<!--        </dependency>-->
+        <!-- for runner -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber-jvm -->
+        <!-- for runner -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber6-jvm</artifactId>
-            <version>2.14.0</version>
+            <version>${allure.version}</version>
         </dependency>
+
+        <!-- for dependency injection -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/io.qameta.allure/allure-maven &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.qameta.allure</groupId>-->
+<!--            <artifactId>allure-maven</artifactId>-->
+<!--            <version>2.10.0</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 </project>

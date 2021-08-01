@@ -10,6 +10,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.AfterSuite;
 import web.BrowserParam;
 
 import java.text.SimpleDateFormat;
@@ -44,20 +45,22 @@ public class CucumberHooks extends BrowserParam {
     @After
     public void afterScenario(Scenario scenario) {
         Status state = this.scenario.getStatus();
-        if (driver!=null) {
+        if (getDriver()!=null) {
             try {
 //            if (state.equals(Status.FAILED) || state.equals(Status.UNDEFINED)) {
                 if (state.equals(Status.FAILED)) {
-                    byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                    byte[] screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
                     this.scenario.attach(screenshot, "image/png",
                             this.scenario.getName() + "_fail_" + new SimpleDateFormat("yyyyMMdd-HHmm-ss.SSS").format(new Date()));
                 }
             } catch (WebDriverException e) {
                 e.printStackTrace();
             }
-            driver.quit();
+            getDriver().quit();
+            remove();
         }
     }
+
 }
 
 
