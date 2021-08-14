@@ -1,7 +1,7 @@
 import io.cucumber.testng.*;
 
 import org.testng.annotations.*;
-import utils.TestListener;
+import listener.TestListener;
 
 
 
@@ -14,6 +14,7 @@ import utils.TestListener;
 //                "pretty",
 //                "json:target/cucumber-report/CucumberRunner.json",
                 "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm",
+                "listener.cucumberListener",
                 "progress",
                 "summary",
 //                "testng"

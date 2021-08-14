@@ -1,39 +1,26 @@
 package steps;
 
-import common.Browser;
-import io.cucumber.java.After;
+import auto.Browser;
+import helper.uiAutoHelper;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import io.cucumber.java.Status;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import model.uiModel;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.*;
-import org.testng.asserts.Assertion;
-import utils.TestListener;
-import web.BrowserParam;
 
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
-public class Login163{
-//    private Browser page = new xxxPage(driver);
-    private Browser page;
+public class Login163 extends uiModel {
+
     private String mail;
     private String password;
-    private Scenario scenario;
-    private String defaultBrowser;
-    private WebDriver driver;
-    private DesiredCapabilities caps;
 
     @Before("@163")
     public void beforeScenario(Scenario scenario) throws Exception {
@@ -42,32 +29,17 @@ public class Login163{
         System.setProperty("webdriver.firefox.bin", "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox");
         System.setProperty("webdriver.gecko.driver", home + "/webdrivers/geckodriver");
         System.setProperty("webdriver.safari.driver", "/usr/bin/safaridriver");
-//        web.BrowserParam.caps = DesiredCapabilities.firefox();
-//        web.BrowserParam.Br = new Browser(web.BrowserParam.caps);
-//        web.BrowserParam.Br.setBrowser(web.BrowserParam.defaultBrowser).setOptions();
         defaultBrowser = System.getProperty("browser", "firefox");
         caps = new DesiredCapabilities();
         page = new Browser(caps);
         page.setBrowser(defaultBrowser).setOptions();
+        driver = page.Start();
         this.scenario = scenario;
-//        page.Start();
 
-    }
+        uiAutoHelper.setBrowser(defaultBrowser);
+        uiAutoHelper.setDesiredCaps(caps);
+        uiAutoHelper.setDriver(driver);
 
-    @After("@163")
-    public void afterScenario(Scenario scenario) {
-        Status state = this.scenario.getStatus();
-        try{
-//            if (state.equals(Status.FAILED) || state.equals(Status.UNDEFINED)) {
-            if (state.equals(Status.FAILED)) {
-                byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-                this.scenario.attach(screenshot, "image/png",
-                        this.scenario.getName()+"_fail_" + new SimpleDateFormat("yyyyMMdd-HHmm-ss.SSS").format(new Date()));
-            }
-        }catch (WebDriverException e){
-            e.printStackTrace();
-        }
-        driver.quit();
     }
 
     @Given("用户：{word}，密码：{word}")
@@ -77,13 +49,7 @@ public class Login163{
     }
 
     @And("打开:{word}")
-    public void NavigateTo163(String url) throws
-            IllegalAccessException, InvocationTargetException,
-            InstantiationException, MalformedURLException, NoSuchFieldException,
-            NoSuchMethodException, ClassNotFoundException {
-        if (driver==null) {
-            driver = page.Start();
-        }
+    public void NavigateTo163(String url) {
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 //        WebDriverWait wait = new WebDriverWait(driver, 10L, 500L);

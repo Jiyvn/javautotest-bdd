@@ -1,4 +1,4 @@
-package common;
+package auto;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -9,12 +9,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 
 public class Client {

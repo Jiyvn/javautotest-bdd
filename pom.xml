@@ -46,8 +46,8 @@
                     <suiteXmlFiles>
 <!--                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>-->
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
-<!--                        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>-->
+<!--                        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/test/resources/mail163.xml</suiteXmlFile>-->
                     </suiteXmlFiles>
 <!--                    <includes>-->

@@ -1,16 +1,12 @@
-package utils;
+package listener;
 
-import common.AppiumService;
-import common.Report;
+import auto.Report;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.*;
-import org.testng.annotations.AfterSuite;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
 
 public class TestListener implements ITestListener {
     public static Logger log = LoggerFactory.getLogger(TestListener.class);

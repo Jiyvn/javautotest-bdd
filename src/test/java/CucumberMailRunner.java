@@ -1,10 +1,8 @@
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
-import utils.TestListener;
+import listener.TestListener;
 
 //import io.cucumber.testng.TestNGCucumberRunner;
 
@@ -18,6 +16,7 @@ import utils.TestListener;
 //                "pretty",
 //                "json:target/cucumber-report/CucumberRunner.json",
                 "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm",
+                "listener.cucumberListener",
                 "progress",
                 "summary",
 //                "testng"

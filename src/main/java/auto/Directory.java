@@ -1,4 +1,4 @@
-package common;
+package auto;
 
 import java.io.File;
 
