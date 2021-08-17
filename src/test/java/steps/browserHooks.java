@@ -15,7 +15,7 @@ public class browserHooks {
     protected Scenario scenario;
     public static Logger log = LoggerFactory.getLogger(browserHooks.class);
 
-    @Before
+    @Before(order = 1)
     public void beforeScenario(){
 //        log.info("class: " + browserHooks.class.getName());
         configLoader.setProperties();
@@ -26,7 +26,7 @@ public class browserHooks {
 
     }
 
-    @After
+    @After(order = 1)
     public void afterScenario(){
 //        log.info("class: " + browserHooks.class.getName());
 //        log.info("after --> scenario: " + this.scenario.getName());

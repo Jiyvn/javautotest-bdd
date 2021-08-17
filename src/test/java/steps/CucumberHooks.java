@@ -18,7 +18,7 @@ public class CucumberHooks {
         log.info("Feature in progress: \"" + scenario.getUri() + "\""); // feature file
     }
 
-    @After(order = 100000)
+    @After(order = 0)
     public void afterScenario(Scenario scenario) {
         cucumberHelper.resetScenario();
     }

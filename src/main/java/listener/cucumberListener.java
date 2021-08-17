@@ -10,12 +10,23 @@ import io.cucumber.plugin.event.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//reference: io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm
 public class cucumberListener implements ConcurrentEventListener {
     static Logger log = LoggerFactory.getLogger(cucumberListener.class);
-    public static String stepName=null;
-    public static boolean scenarioFinished =false;
+    private  ThreadLocal<String> stepName = new ThreadLocal<String>() {
+        protected synchronized String initialValue() {
+            return null;
+        }
+    };
+    private  ThreadLocal<Boolean> scenarioFinished = new ThreadLocal<Boolean>(){
+        protected synchronized Boolean initialValue() {
+            return false;
+        }
+    };
 
-
+//    public cucumberListener() {
+//
+//    }
 
     @Override
     public void setEventPublisher(EventPublisher publisher) {
@@ -25,15 +36,14 @@ public class cucumberListener implements ConcurrentEventListener {
             public void receive(TestStepStarted event) {
                 if (event.getTestStep() instanceof PickleStepTestStep) {
                     final PickleStepTestStep step = (PickleStepTestStep) event.getTestStep();
-                    if (stepName == null) scenarioFinished = false;
-//                    log.info("scenarioFinished: " + scenarioFinished);
-                    stepName = step.getStep().getKeyword() + step.getStep().getText();
-//                    log.info("wholeStep(" + stepName + ")");
-                    if (!scenarioFinished) {
+//                    stepName.set(step.getStep().getKeyword() + step.getStep().getText());
+//                    log.info("wholeStep(" + stepName.get() + ")");
+                    if (!scenarioFinished.get()) {
                         cucumberHelper.setStep(step);
                         // step.getCodeLocation(): get the step method
 //                        log.info("toSetSTEP(" + stepName + ")");
                     }
+
                 }
             }
         });
@@ -42,13 +52,8 @@ public class cucumberListener implements ConcurrentEventListener {
             @Override
             public void receive(TestStepFinished event) {
                 if (event.getTestStep() instanceof PickleStepTestStep) {
-                    //
-                    if (!event.getResult().getStatus().equals(Status.PASSED)){
-                        scenarioFinished = true;
-                    }else {
-                        scenarioFinished = false;
-                    }
-                    event.getTestCase().getTestSteps().size();
+                    scenarioFinished.set(!event.getResult().getStatus().equals(Status.PASSED));
+//                    event.getTestCase().getTestSteps().size();
 //                    log.info("TestStepFinished - steplistener");
                 }
             }
