@@ -1,6 +1,8 @@
 package auto;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Directory {
 
@@ -29,16 +31,34 @@ public class Directory {
     public static final String TESTSET_FILE = Directory.Path("testset.yml", SRC_RESOURCE_DIR);
 
     public static String Path(String relativePath){
-        String wholePath = relativePath.startsWith("/")
-                ? PROJ_DIR + relativePath
-                : PROJ_DIR + "/" + relativePath;
-        return new File(wholePath).getAbsolutePath();
+        return getFile(relativePath).getAbsolutePath();
     }
+
     public static String Path(String relativePath, String parentPath){
+        return getFile(relativePath, parentPath).getAbsolutePath();
+    }
+
+    public static File getFile(String relativePath){
+        return getFile(relativePath, PROJ_DIR);
+    }
+
+    public static File getFile(String relativePath, String parentPath){
         String wholePath = relativePath.startsWith("/")
                 ? parentPath + relativePath
                 : parentPath + "/" + relativePath;
-        return new File(wholePath).getAbsolutePath();
+        return new File(wholePath);
+    }
+
+    public static Path getPath(String relativePath){
+        return getPath(relativePath, PROJ_DIR);
+
+    }
+
+    public static Path getPath(String relativePath, String parentPath){
+        String wholePath = relativePath.startsWith("/")
+                ? parentPath + relativePath
+                : parentPath + "/" + relativePath;
+        return Paths.get(wholePath);
     }
 
 }

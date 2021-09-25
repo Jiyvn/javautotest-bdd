@@ -35,7 +35,7 @@ public class browserHooks {
                 uiAutoHelper.getDriver(), this.scenario,
                 this.scenario.getName()+ "_" + cucumberHelper.getStepName()
         );
-        uiAutoHelper.driverQuit();
+        uiAutoHelper.quit();
         uiAutoHelper.reset();
     }
 

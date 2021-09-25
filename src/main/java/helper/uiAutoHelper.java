@@ -61,9 +61,7 @@ public class uiAutoHelper {
         Driver.remove();
     }
 
-    public static void driverQuit(){
-        if (getDriver()!=null){
-            getDriver().quit();
-        }
+    public static void quit(){
+        getDriver().quit();
     }
 }
