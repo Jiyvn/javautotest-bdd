@@ -51,7 +51,7 @@ public class Search extends uiModel {
 //        scenario.attach(
 //                ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png", "Page screenshot"
 //        );
-        cucumberHelper.attach(driver);
+        cucumberHelper.attachImage(driver);
     }
 
     @And("浏览器:{word}")
@@ -81,9 +81,14 @@ public class Search extends uiModel {
         }
     }
 
-    @And("打开")
-    public void open() {
+    @And("打开www")
+    public void openwww() {
         assert 1 == 0;
+    }
+
+    @And("点击xxx")
+    public void clickxxx() {
+        //
     }
 
 }

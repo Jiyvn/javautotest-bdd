@@ -1,10 +1,15 @@
 package helper;
 
 import io.cucumber.java.Scenario;
+import io.cucumber.java.Status;
 import io.cucumber.plugin.event.PickleStepTestStep;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import utils.capturer;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class cucumberHelper {
 
@@ -55,31 +60,58 @@ public class cucumberHelper {
 
     public static void resetScenario(){
         scenario.remove();
-        firstly.remove();
     }
+
     public static void resetStep(){
         step.remove();
     }
-
-    public static InheritableThreadLocal<Boolean> firstly = new InheritableThreadLocal<Boolean>() {
-        protected synchronized Boolean initialValue() {
-            return true;
-        }
-    };
-    public static Boolean getFirstly() {
-        return firstly.get();
+    public static void attach(byte[] imageBytes, String mediaType, String fileName){
+        getScenario().attach(imageBytes, mediaType, fileName);
     }
 
-    public static void setFirstly(Boolean first) {
-        firstly.set(first);
+    // full screen capture
+    public static void attachImage(WebDriver driver){
+        attachImage(driver, getScenario().getName() + "__" + getStep().getStep().getText());
+    }
+
+    public static void attachImage(WebDriver driver, String Name){
+        attachImage(driver, "image/png", Name);
+    }
+
+    public static void attachImage(WebDriver driver, String mediaType, String Name){
+        attach(new capturer().captureFullScreen(driver), mediaType, Name);
     }
 
 
-    public static void attach(WebDriver driver){
-        getScenario().attach(
-                ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png",
-                getScenario().getName() + "___" + getStep().getStep().getText()
+    // WebElement capture
+    public static void attachImage(WebElement element){
+        attachImage(element, getScenario().getName() + "__" + getStep().getStep().getText());
+    }
+
+    public static void attachImage(WebElement element, String Name){
+        attachImage(element, "image/png", Name);
+    }
+
+    public static void attachImage(WebElement element, String mediaType, String Name){
+        attach(new capturer().takeScreenShot(element), mediaType, Name);
+    }
+
+
+    public static void takeScreenshotIfFailed(WebDriver driver){
+        takeScreenshotIfFailed(driver,
+                getScenario().getName().replace(":", "-") + "_fail_" + new SimpleDateFormat("yyyyMMdd-HHmm-ss.SSS").format(new Date())
         );
     }
 
+    public static void takeScreenshotIfFailed(WebDriver driver, String Name){
+        Status state = getScenario().getStatus();
+        try {
+//            if (state.equals(Status.FAILED) || state.equals(Status.UNDEFINED)) {
+            if (state.equals(Status.FAILED)) {
+                attachImage(driver, Name);
+            }
+        } catch (WebDriverException e) {
+            e.printStackTrace();
+        }
+    }
 }

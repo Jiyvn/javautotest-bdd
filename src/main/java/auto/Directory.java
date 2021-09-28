@@ -55,10 +55,11 @@ public class Directory {
     }
 
     public static Path getPath(String relativePath, String parentPath){
-        String wholePath = relativePath.startsWith("/")
-                ? parentPath + relativePath
-                : parentPath + "/" + relativePath;
-        return Paths.get(wholePath);
+//        String wholePath = relativePath.startsWith("/")
+//                ? parentPath + relativePath
+//                : parentPath + "/" + relativePath;
+//        return Paths.get(wholePath);
+        return getFile(relativePath, parentPath).toPath();
     }
 
 }

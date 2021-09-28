@@ -31,8 +31,8 @@ public class browserHooks {
 //        log.info("class: " + browserHooks.class.getName());
 //        log.info("after --> scenario: " + this.scenario.getName());
         log.info("Stopped on Step: " + cucumberHelper.getStepName());
-        capturer.takeScreenshotIfFailed(
-                uiAutoHelper.getDriver(), this.scenario,
+        cucumberHelper.takeScreenshotIfFailed(
+                uiAutoHelper.getDriver(),
                 this.scenario.getName()+ "_" + cucumberHelper.getStepName()
         );
         uiAutoHelper.quit();
