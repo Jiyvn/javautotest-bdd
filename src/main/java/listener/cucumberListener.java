@@ -9,13 +9,13 @@ import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm;
 
-//reference: io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm
+
+//reference: import io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm;
 public class cucumberListener implements ConcurrentEventListener {
     static Logger log = LoggerFactory.getLogger(cucumberListener.class);
-//    private final EventHandler<TestCaseStarted> caseStartedHandler;
-//    private final EventHandler<TestCaseFinished> caseFinishedHandler;
+    private final EventHandler<TestCaseStarted> caseStartedHandler;
+    private final EventHandler<TestCaseFinished> caseFinishedHandler;
     private final EventHandler<TestStepStarted> stepStartedHandler;
     private final EventHandler<TestStepFinished> stepFinishedHandler;
     private final ThreadLocal<Boolean> scenarioFinished = new ThreadLocal<Boolean>(){
@@ -27,6 +27,8 @@ public class cucumberListener implements ConcurrentEventListener {
     public cucumberListener() {
         this.stepStartedHandler = this::handleStepStarted;
         this.stepFinishedHandler = this::handleStepFinished;
+        this.caseStartedHandler = this::handleCaseStarted;
+        this.caseFinishedHandler = this::handleCaseFinished;
     }
 
     public void setEventPublisher(EventPublisher publisher) {
@@ -43,44 +45,19 @@ public class cucumberListener implements ConcurrentEventListener {
             }
         }
     }
+
     public void handleStepFinished(TestStepFinished event){
         if (event.getTestStep() instanceof PickleStepTestStep) {
             scenarioFinished.set(!event.getResult().getStatus().equals(Status.PASSED));
         }
     }
 
+    public void handleCaseStarted(TestCaseStarted event){
 
-//    @Override
-//    public void setEventPublisher(EventPublisher publisher) {
-//
-//        publisher.registerHandlerFor(TestStepStarted.class, new EventHandler<TestStepStarted>() {
-//            @Override
-//            public void receive(TestStepStarted event) {
-//                if (event.getTestStep() instanceof PickleStepTestStep) {
-//                    final PickleStepTestStep step = (PickleStepTestStep) event.getTestStep();
-////                    stepName.set(step.getStep().getKeyword() + step.getStep().getText());
-////                    log.info("wholeStep(" + stepName.get() + ")");
-//                    if (!scenarioFinished.get()) {
-//                        cucumberHelper.setStep(step);
-//                        // step.getCodeLocation(): get the step method
-////                        log.info("toSetSTEP(" + stepName + ")");
-//                    }
-//
-//                }
-//            }
-//        });
-//
-//        publisher.registerHandlerFor(TestStepFinished.class, new EventHandler<TestStepFinished>() {
-//            @Override
-//            public void receive(TestStepFinished event) {
-//                if (event.getTestStep() instanceof PickleStepTestStep) {
-//                    scenarioFinished.set(!event.getResult().getStatus().equals(Status.PASSED));
-////                    event.getTestCase().getTestSteps().size();
-////                    log.info("TestStepFinished - steplistener");
-//                }
-//            }
-//        });
-//
-//    }
+    }
+
+    public void handleCaseFinished(TestCaseFinished event){
+
+    }
 
 }
