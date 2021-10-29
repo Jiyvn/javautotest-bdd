@@ -1,6 +1,7 @@
 package utils;
 
 
+import auto.Directory;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -16,9 +17,10 @@ import java.util.List;
 public class imagePrc {
 
     public static List<Rect> getTextContours(File imageFile){
-        nu.pattern.OpenCV.loadShared();
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-//        System.load("/path/to/lib"+Core.NATIVE_LIBRARY_NAME+".dylib");
+//        nu.pattern.OpenCV.loadShared(); // not supported jdk >=12
+        nu.pattern.OpenCV.loadLocally();
+//        System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // failed to load
+//        System.load(Directory.PROJ_DIR+"/lib/lib"+Core.NATIVE_LIBRARY_NAME+".dylib");
         Mat img = Imgcodecs.imread(imageFile.getAbsolutePath());
         Mat gray = new Mat();
         Imgproc.cvtColor(img, gray, Imgproc.COLOR_RGB2GRAY);
@@ -37,7 +39,7 @@ public class imagePrc {
         Imgproc.morphologyEx(opening, closing, Imgproc.MORPH_CLOSE , morphKernel);
 
         // find contours
-        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+        List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
         Imgproc.findContours(closing, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE, new org.opencv.core.Point(0, 0));
 
@@ -60,7 +62,7 @@ public class imagePrc {
                 contoursRect.add(rect);
                 Imgproc.rectangle(img, new org.opencv.core.Point(rect.x,rect.y), new org.opencv.core.Point(rect.br().x-1, rect.br().y-1), new Scalar(0, 255, 0));
             }
-            String output = imageFile.getName().split("\\.")[imageFile.getName().split("\\.").length-1]+"withTextRect.png";
+            String output = Directory.PROJ_DIR + "img/" + imageFile.getName().split("\\.")[imageFile.getName().split("\\.").length-2]+"withTextRect.png";
             Imgcodecs.imwrite(output,img);
         }
         return contoursRect;
@@ -68,10 +70,9 @@ public class imagePrc {
 
     public static List<Rect> getOneTextContourOfEachRow(List<Rect> contours){
         List<Rect> crs = new ArrayList<>();
-        for(int i = 0; i < contours.size(); i++) {
-            Rect rect = contours.get(i);
-            if (crs.stream().noneMatch(cr -> (cr.y - cr.height*1.2 <= rect.y && rect.y <= cr.y + cr.height*1.2)
-                    || (rect.y - rect.height*1.2 <= cr.y && cr.y <= rect.y + rect.height*1.2))){
+        for (Rect rect : contours) {
+            if (crs.stream().noneMatch(cr -> (cr.y - cr.height * 1.2 <= rect.y && rect.y <= cr.y + cr.height * 1.2)
+                    || (rect.y - rect.height * 1.2 <= cr.y && cr.y <= rect.y + rect.height * 1.2))) {
                 crs.add(rect);
             }
         }
