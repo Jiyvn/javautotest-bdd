@@ -3,22 +3,25 @@ package utils;
 
 import auto.Directory;
 import org.opencv.core.*;
+import org.opencv.features2d.DescriptorMatcher;
+import org.opencv.features2d.Features2d;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.xfeatures2d.SURF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class imagePrc {
+// for opencv
+public class imgCV {
+    public static Logger log = LoggerFactory.getLogger(imgCV.class);
 
     static {
-        //        nu.pattern.OpenCV.loadShared(); // not supported jdk >=12
+//        nu.pattern.OpenCV.loadShared(); // not supported jdk >=12
 //        nu.pattern.OpenCV.loadLocally();  // use .dylib of openpnp
 //        System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // failed to load
 //        System.load(Directory.PROJ_DIR+"/lib/lib"+Core.NATIVE_LIBRARY_NAME+".dylib");
@@ -111,7 +114,7 @@ public class imagePrc {
 
         Mat outputImage = new Mat(objectImage.rows(), objectImage.cols(), Imgcodecs.IMREAD_GRAYSCALE);
         Scalar newKeypointColor = new Scalar(255, 0, 0);
-        log.info(objectKeyPoints.toList().toString());
+//        log.info(objectKeyPoints.toList().toString());
         Features2d.drawKeypoints(objectImage, objectKeyPoints, outputImage, newKeypointColor, 0);
 
         MatOfKeyPoint sceneKeyPoints = new MatOfKeyPoint();
@@ -135,12 +138,52 @@ public class imagePrc {
                 goodMatchesList.addLast(m1);
             }
         }
-
         if (goodMatchesList.size() >= 7) {
             found = true;
         }
-        log.info("sub-image found: "+found);
+        log.info("subimage found: "+found);
 
+        return found;
+    }
+
+    // not ready
+    public static boolean imageMatch(File subFile, File actualFile){
+        boolean found = false;
+        Mat srcImage = Imgcodecs.imread(actualFile.getAbsolutePath(), Imgcodecs.IMREAD_COLOR);
+        Mat templ = Imgcodecs.imread(subFile.getAbsolutePath(), Imgcodecs.IMREAD_COLOR);
+//        Mat srcImage = Imgcodecs.imread(actualFile.getAbsolutePath(), Imgcodecs.IMREAD_GRAYSCALE);
+//        Mat templ = Imgcodecs.imread(subFile.getAbsolutePath(), Imgcodecs.IMREAD_GRAYSCALE);
+        Mat result = new Mat();
+
+        int result_cols = srcImage.cols() - templ.cols() + 1;
+        int result_rows = srcImage.rows() - templ.rows() + 1;
+        result.create(result_rows, result_cols, CvType.CV_32FC1);
+//        int method=Imgproc.TM_CCOEFF_NORMED;
+        int method=Imgproc.TM_SQDIFF_NORMED;
+        Imgproc.matchTemplate(srcImage, templ, result, method);
+
+        log.info(String.valueOf(result.elemSize()));
+
+        Core.normalize(result, result, 0, 1, Core.NORM_MINMAX, -1, new Mat());
+        org.opencv.core.Point matchLoc;
+        Core.MinMaxLocResult mmr = Core.minMaxLoc(result);
+        if (method == Imgproc.TM_SQDIFF || method == Imgproc.TM_SQDIFF_NORMED) {
+            matchLoc = mmr.minLoc;
+            found = mmr.minVal<0.000001; // not sure
+        } else {
+            matchLoc = mmr.maxLoc;
+            found = mmr.maxVal>0.8;  // not sure
+        }
+        log.info(String.valueOf(mmr.minVal));
+        log.info(String.valueOf(mmr.maxVal));
+        log.info(String.valueOf(result.total()));
+        log.info(String.valueOf(result.empty()));
+        Imgproc.rectangle(srcImage, matchLoc, new org.opencv.core.Point(matchLoc.x + templ.cols(), matchLoc.y + templ.rows()),
+                new Scalar(0, 255, 0), 1, 8, 0);
+        Imgproc.rectangle(result, matchLoc, new org.opencv.core.Point(matchLoc.x + templ.cols(), matchLoc.y + templ.rows()),
+                new Scalar(0, 255, 0), 1, 8, 0);
+        log.info(String.valueOf(result.isContinuous()));
+        Imgcodecs.imwrite("testTemplate.png", srcImage);
         return found;
     }
 }
