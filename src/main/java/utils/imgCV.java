@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,14 +30,26 @@ public class imgCV {
     }
 
     public static void loadOpenCV(){
-        String os = System.getProperty("os.name");
-        String libName = os.startsWith("Mac")? "lib"+Core.NATIVE_LIBRARY_NAME+".dylib"
-                :os.startsWith("Windows")? Core.NATIVE_LIBRARY_NAME+".dll"
-                :"lib"+Core.NATIVE_LIBRARY_NAME+".so";
-        System.load(Directory.PROJ_DIR+"/lib/"+libName);
+        String opencvLib = System.getProperty("OPENCV_LIB");
+        if (opencvLib==null) {
+            try{
+                System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+            }catch (java.lang.UnsatisfiedLinkError e) {
+                log.info("failed to load Core.NATIVE_LIBRARY_NAME: "+Core.NATIVE_LIBRARY_NAME);
+                log.debug("stack trace: "+Arrays.toString(e.getStackTrace()));
+                String os = System.getProperty("os.name");
+                String libName = os.startsWith("Mac") ? "lib" + Core.NATIVE_LIBRARY_NAME + ".dylib"
+                        : os.startsWith("Windows") ? Core.NATIVE_LIBRARY_NAME + ".dll"
+                        : "lib" + Core.NATIVE_LIBRARY_NAME + ".so";
+                opencvLib = Directory.PROJ_DIR + "/lib/" + libName;
+                log.info("try to load: "+opencvLib);
+            }
+        }
+        System.load(opencvLib);
     }
 
     public static List<Rect> getTextContours(File imageFile){
+        String output = Directory.PROJ_DIR + "img/" + imageFile.getName().split("\\.")[imageFile.getName().split("\\.").length-2]+"withTextRect.png";
         Mat img = Imgcodecs.imread(imageFile.getAbsolutePath());
         Mat gray = new Mat();
         Imgproc.cvtColor(img, gray, Imgproc.COLOR_RGB2GRAY);
@@ -76,11 +89,9 @@ public class imgCV {
              */
             if(r > .45 && (rect.height > 15 && rect.width > 5)) {
                 contoursRect.add(rect);
-                Imgproc.rectangle(img, new org.opencv.core.Point(rect.x,rect.y), new org.opencv.core.Point(rect.br().x-1, rect.br().y-1), new Scalar(0, 255, 0));
             }
-            String output = Directory.PROJ_DIR + "img/" + imageFile.getName().split("\\.")[imageFile.getName().split("\\.").length-2]+"withTextRect.png";
-            Imgcodecs.imwrite(output,img);
         }
+        drawContoursRect(img, output, contoursRect);
         return contoursRect;
     }
 
@@ -93,6 +104,23 @@ public class imgCV {
             }
         }
         return crs;
+    }
+
+    public static void drawContoursRect(File imageFile, List<Rect> contours){
+        String output = Directory.PROJ_DIR + "img/" + imageFile.getName().split("\\.")[imageFile.getName().split("\\.").length-2]+"withContours.png";
+        Mat img = Imgcodecs.imread(imageFile.getAbsolutePath());
+        drawContoursRect(img, output, contours);
+//        for (Rect rect: contours){
+//            Imgproc.rectangle(img, new org.opencv.core.Point(rect.x,rect.y), new org.opencv.core.Point(rect.br().x-1, rect.br().y-1), new Scalar(0, 255, 0));
+//            Imgcodecs.imwrite(output,img);
+//        }
+    }
+
+    public static void drawContoursRect(Mat img, String output, List<Rect> contours){
+        for (Rect rect: contours){
+            Imgproc.rectangle(img, new org.opencv.core.Point(rect.x,rect.y), new org.opencv.core.Point(rect.br().x-1, rect.br().y-1), new Scalar(0, 255, 0));
+            Imgcodecs.imwrite(output,img);
+        }
     }
 
     public static boolean findSubImage(File subFile, File actualFile) {
