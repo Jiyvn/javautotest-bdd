@@ -12,15 +12,28 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class imagePrc {
 
-    public static List<Rect> getTextContours(File imageFile){
-//        nu.pattern.OpenCV.loadShared(); // not supported jdk >=12
-        nu.pattern.OpenCV.loadLocally();
+    static {
+        //        nu.pattern.OpenCV.loadShared(); // not supported jdk >=12
+//        nu.pattern.OpenCV.loadLocally();  // use .dylib of openpnp
 //        System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // failed to load
 //        System.load(Directory.PROJ_DIR+"/lib/lib"+Core.NATIVE_LIBRARY_NAME+".dylib");
+        loadOpenCV();
+    }
+
+    public static void loadOpenCV(){
+        String os = System.getProperty("os.name");
+        String libName = os.startsWith("Mac")? "lib"+Core.NATIVE_LIBRARY_NAME+".dylib"
+                :os.startsWith("Windows")? Core.NATIVE_LIBRARY_NAME+".dll"
+                :"lib"+Core.NATIVE_LIBRARY_NAME+".so";
+        System.load(Directory.PROJ_DIR+"/lib/"+libName);
+    }
+
+    public static List<Rect> getTextContours(File imageFile){
         Mat img = Imgcodecs.imread(imageFile.getAbsolutePath());
         Mat gray = new Mat();
         Imgproc.cvtColor(img, gray, Imgproc.COLOR_RGB2GRAY);
@@ -71,18 +84,63 @@ public class imagePrc {
     public static List<Rect> getOneTextContourOfEachRow(List<Rect> contours){
         List<Rect> crs = new ArrayList<>();
         for (Rect rect : contours) {
-            if (crs.stream().noneMatch(cr -> (cr.y - cr.height * 1.2 <= rect.y && rect.y <= cr.y + cr.height * 1.2)
-                    || (rect.y - rect.height * 1.2 <= cr.y && cr.y <= rect.y + rect.height * 1.2))) {
+            if (crs.stream().noneMatch(cr -> (cr.y - cr.height <= rect.y && rect.y <= cr.y + cr.height)
+                    || (rect.y - rect.height <= cr.y && cr.y <= rect.y + rect.height))) {
                 crs.add(rect);
             }
         }
         return crs;
     }
 
-    public static byte[] getSubImage(final BufferedImage wholeImage, int xInImg, int yInImg, int width, int height) throws IOException {
-        BufferedImage subImage = wholeImage.getSubimage(xInImg, yInImg, width, height);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(subImage, "png", baos);
-        return baos.toByteArray();
+    public static boolean findSubImage(File subFile, File actualFile) {
+
+        boolean found = false;
+        Mat objectImage = Imgcodecs.imread(subFile.getAbsolutePath(), Imgcodecs.IMREAD_GRAYSCALE);
+        Mat sceneImage = Imgcodecs.imread(actualFile.getAbsolutePath(), Imgcodecs.IMREAD_GRAYSCALE);
+
+        double hessianThreshold = 400;
+        int nOctaves = 4, nOctaveLayers = 3;
+        boolean extended = false, upright = true;
+        SURF featureDetector = SURF.create(hessianThreshold, nOctaves, nOctaveLayers, extended, upright);
+
+        MatOfKeyPoint objectKeyPoints = new MatOfKeyPoint();
+        featureDetector.detect(objectImage, objectKeyPoints);
+        Mat objectDescriptors = new Mat();
+        featureDetector.compute(objectImage, objectKeyPoints, objectDescriptors);
+
+
+        Mat outputImage = new Mat(objectImage.rows(), objectImage.cols(), Imgcodecs.IMREAD_GRAYSCALE);
+        Scalar newKeypointColor = new Scalar(255, 0, 0);
+        log.info(objectKeyPoints.toList().toString());
+        Features2d.drawKeypoints(objectImage, objectKeyPoints, outputImage, newKeypointColor, 0);
+
+        MatOfKeyPoint sceneKeyPoints = new MatOfKeyPoint();
+        featureDetector.detect(sceneImage, sceneKeyPoints);
+        Mat sceneDescriptors = new Mat();
+        featureDetector.compute(sceneImage, sceneKeyPoints, sceneDescriptors);
+
+        List<MatOfDMatch> matches = new LinkedList<MatOfDMatch>();
+        DescriptorMatcher descriptorMatcher = DescriptorMatcher.create(DescriptorMatcher.FLANNBASED);
+        descriptorMatcher.knnMatch(objectDescriptors, sceneDescriptors, matches, 2);
+
+        LinkedList<DMatch> goodMatchesList = new LinkedList<DMatch>();
+
+        float nndrRatio = 0.7f;
+
+        for (MatOfDMatch matofDMatch : matches) {
+            DMatch[] dmatcharray = matofDMatch.toArray();
+            DMatch m1 = dmatcharray[0];
+            DMatch m2 = dmatcharray[1];
+            if (m1.distance <= m2.distance * nndrRatio) {
+                goodMatchesList.addLast(m1);
+            }
+        }
+
+        if (goodMatchesList.size() >= 7) {
+            found = true;
+        }
+        log.info("sub-image found: "+found);
+
+        return found;
     }
 }

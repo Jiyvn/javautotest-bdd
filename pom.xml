@@ -198,11 +198,18 @@
             <artifactId>json-path</artifactId>
             <version>2.6.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.openpnp/opencv -->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.openpnp/opencv &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.openpnp</groupId>-->
+<!--            <artifactId>opencv</artifactId>-->
+<!--            <version>4.5.1-2</version>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.bytedeco/opencv -->
         <dependency>
-            <groupId>org.openpnp</groupId>
+            <groupId>org.bytedeco</groupId>
             <artifactId>opencv</artifactId>
-            <version>4.5.1-2</version>
+            <version>4.5.3-1.5.6</version>
         </dependency>
+
     </dependencies>
 </project>
