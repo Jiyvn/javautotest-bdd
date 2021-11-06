@@ -70,7 +70,7 @@ public class imgCV {
         return imgIO.writeBytesToImage(mob.toArray());
     }
 
-    public static byte[] mat2Bytes(Mat matrix, String formatName) throws IOException {
+    public static byte[] mat2Bytes(Mat matrix, String formatName){
         MatOfByte mob=new MatOfByte();
 //        Imgcodecs.imencode(".jpg", matrix, mob);
         Imgcodecs.imencode(formatName, matrix, mob);
@@ -97,6 +97,14 @@ public class imgCV {
         Mat mat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
         mat.put(0, 0, data);
         return mat;
+    }
+
+    public static BufferedImage getSubImage(Mat mat, int x, int y, int width, int height) throws IOException {
+        Rect rect = new Rect(x, y, width, height);
+        // generate matrix of the interested region
+        Mat subImg = new Mat(mat, rect);
+//        Imgcodecs.imwrite("subimage.jpg", subImg);
+        return mat2Image(subImg, "png");
     }
 
     public static List<Rect> getTextContours(File imageFile){
