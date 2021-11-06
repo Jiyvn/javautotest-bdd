@@ -3,10 +3,12 @@ package utils;
 import javax.imageio.ImageIO;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 // not opencv
 public class imgIO {
@@ -24,10 +26,18 @@ public class imgIO {
         ImageIO.write(bufferImage, formatName, baos);
         return baos.toByteArray();
     }
+    public static byte[] readImageToBytes(BufferedImage bufferImage) {
+        byte[] data = ((DataBufferByte) bufferImage.getRaster().getDataBuffer()).getData();
+        return data;
+    }
+
+    public static byte[] readFileToBytes(File imageFile, String formatName) throws IOException {
+//        return readImageToBytes(readFileToImage(imageFile), "png");
+        return readImageToBytes(readFileToImage(imageFile), formatName);
+    }
 
     public static byte[] readFileToBytes(File imageFile) throws IOException {
-//        return Files.readAllBytes(imageFile.toPath());
-        return readImageToBytes(readFileToImage(imageFile), "png");
+        return Files.readAllBytes(imageFile.toPath());
     }
 
     public static BufferedImage writeBytesToImage(byte[] bytes) throws IOException {
