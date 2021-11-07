@@ -1,7 +1,7 @@
 package utils;
 
 import javax.imageio.ImageIO;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
@@ -13,43 +13,57 @@ import java.nio.file.Files;
 // not opencv
 public class imgIO {
 
-    public static BufferedImage readFileToImage(String imagePath) throws IOException {
+    public static BufferedImage imageToBufferedImage(Image image){
+        if (image instanceof BufferedImage) {
+            return (BufferedImage) image;
+        }
+        BufferedImage bi = new BufferedImage
+                (image.getWidth(null),image.getHeight(null),BufferedImage.TYPE_INT_RGB);
+        Graphics bg = bi.getGraphics();
+        bg.drawImage(image, 0, 0, null);
+        bg.dispose();
+        return bi;
+
+    }
+
+    public static BufferedImage fileToBufferedImage(String imagePath) throws IOException {
         return ImageIO.read(new File(imagePath));
     }
 
-    public static BufferedImage readFileToImage(File imageFile) throws IOException {
+    public static BufferedImage fileToBufferedImage(File imageFile) throws IOException {
         return ImageIO.read(imageFile);
     }
 
-    public static byte[] readImageToBytes(BufferedImage bufferImage, String formatName) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(bufferImage, formatName, baos);
-        return baos.toByteArray();
-    }
-    public static byte[] readImageToBytes(BufferedImage bufferImage) {
-        byte[] data = ((DataBufferByte) bufferImage.getRaster().getDataBuffer()).getData();
-        return data;
-    }
-
-    public static byte[] readFileToBytes(File imageFile, String formatName) throws IOException {
-//        return readImageToBytes(readFileToImage(imageFile), "png");
-        return readImageToBytes(readFileToImage(imageFile), formatName);
-    }
-
-    public static byte[] readFileToBytes(File imageFile) throws IOException {
-        return Files.readAllBytes(imageFile.toPath());
-    }
-
-    public static BufferedImage writeBytesToImage(byte[] bytes) throws IOException {
-        return ImageIO.read(new ByteArrayInputStream(bytes));
-    }
-
-    public static void writeImageToFile(BufferedImage bufferedImage, File output) throws IOException {
+    public static void bufferedImageToFile(BufferedImage bufferedImage, File output) throws IOException {
         ImageIO.write(bufferedImage, "png", output);
     }
 
-    public static void writeBytesToFile(byte[] bytes, File output) throws IOException {
-        writeImageToFile(writeBytesToImage(bytes), output);
+    public static byte[] bufferedImageToBytes(BufferedImage bufferImage, String formatName) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(bufferImage, formatName, baos);
+//        baos.flush();
+        return baos.toByteArray();
+    }
+
+    public static byte[] bufferedImageToBytes(BufferedImage bufferImage) {
+        return ((DataBufferByte) bufferImage.getRaster().getDataBuffer()).getData();
+    }
+
+    public static BufferedImage bytesToBufferedImage(byte[] bytes) throws IOException {
+        return ImageIO.read(new ByteArrayInputStream(bytes));
+    }
+
+    public static byte[] fileToBytes(File imageFile, String formatName) throws IOException {
+//        return readImageToBytes(readFileToImage(imageFile), "png");
+        return bufferedImageToBytes(fileToBufferedImage(imageFile), formatName);
+    }
+
+    public static byte[] fileToBytes(File imageFile) throws IOException {
+        return Files.readAllBytes(imageFile.toPath());
+    }
+
+    public static void bytesToFile(byte[] bytes, File output) throws IOException {
+        bufferedImageToFile(bytesToBufferedImage(bytes), output);
     }
 
     public static byte[] getSubImage(final BufferedImage wholeImage, Rectangle rect) throws IOException {
@@ -57,13 +71,13 @@ public class imgIO {
 //        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //        ImageIO.write(subImage, "png", baos);
 //        return baos.toByteArray();
-        return readImageToBytes(subImage, "png");
+        return bufferedImageToBytes(subImage, "png");
     }
     public static byte[] getSubImage(final BufferedImage wholeImage, int xInImg, int yInImg, int width, int height) throws IOException {
         BufferedImage subImage = wholeImage.getSubimage(xInImg, yInImg, width, height);
 //        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //        ImageIO.write(subImage, "png", baos);
 //        return baos.toByteArray();
-        return readImageToBytes(subImage, "png");
+        return bufferedImageToBytes(subImage, "png");
     }
 }
