@@ -5,6 +5,7 @@ import auto.Directory;
 import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.Features2d;
+import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.xfeatures2d.SURF;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,59 +54,71 @@ public class imgCV {
         System.load(opencvLib);
     }
 
-    public static Mat image2Mat(BufferedImage image) throws IOException {
+    public static Mat bufferedImageToMat(BufferedImage bufferedImage, String formatName) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(image, "jpg", byteArrayOutputStream);
+//        ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
+        ImageIO.write(bufferedImage, formatName, byteArrayOutputStream);
         byteArrayOutputStream.flush();
         return Imgcodecs.imdecode(new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.IMREAD_UNCHANGED);
     }
 
-    public static Mat image2Mat(BufferedImage image, String formatName) throws IOException {
-        return Imgcodecs.imdecode(new MatOfByte(imgIO.readImageToBytes(image, formatName)), Imgcodecs.IMREAD_UNCHANGED);
+//    public static Mat bufferedImageToMat(BufferedImage bufferedImage, String formatName) throws IOException {
+//        return Imgcodecs.imdecode(new MatOfByte(imgIO.bufferedImageToBytes(bufferedImage, formatName)), Imgcodecs.IMREAD_UNCHANGED);
+//    }
+
+    public static Mat bufferedImageToMat(BufferedImage bufferedImage, int cvType) {
+//        Mat matrix = new Mat(bufferedImage.getHeight(), bufferedImage.getWidth(), CvType.CV_8UC3);
+        Mat matrix = new Mat(bufferedImage.getHeight(), bufferedImage.getWidth(), cvType);
+        byte[] data = imgIO.bufferedImageToBytes(bufferedImage);
+        matrix.put(0, 0, data);
+        return matrix;
     }
 
-    public static BufferedImage mat2Image(Mat matrix, String formatName)throws IOException {
-        MatOfByte mob=new MatOfByte();
-//        Imgcodecs.imencode(".jpg", matrix, mob);
-        Imgcodecs.imencode(formatName, matrix, mob);
-        return imgIO.writeBytesToImage(mob.toArray());
+    public static Mat bufferedImage2Mat(BufferedImage bufferedImage) {
+        bufferedImage = to3ByteBGRImage(bufferedImage);
+        Mat matrix = new Mat(bufferedImage.getHeight(), bufferedImage.getWidth(), CvType.CV_8UC3);
+        byte[] data = imgIO.bufferedImageToBytes(bufferedImage);
+        matrix.put(0, 0, data);
+        return matrix;
     }
 
-    public static byte[] mat2Bytes(Mat matrix, String formatName){
-        MatOfByte mob=new MatOfByte();
+    public static BufferedImage to3ByteBGRImage(BufferedImage bufferedImage) {
+        BufferedImage convertedImage = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(),
+                BufferedImage.TYPE_3BYTE_BGR);
+        convertedImage.getGraphics().drawImage(bufferedImage, 0, 0, null);
+        return convertedImage;
+    }
+
+    public static BufferedImage matTobufferedImage(Mat matrix, String formatName)throws IOException {
+        return imgIO.bytesToBufferedImage(matToBytes(matrix, formatName));
+    }
+
+    public static Image matTobufferedImage(Mat matrix){
+        return HighGui.toBufferedImage(matrix);
+    }
+
+    public static byte[] matToBytes(Mat matrix, String formatName){
+        MatOfByte mob = new MatOfByte();
 //        Imgcodecs.imencode(".jpg", matrix, mob);
         Imgcodecs.imencode(formatName, matrix, mob);
         return mob.toArray();
     }
 
-    public static Mat imageToMat(BufferedImage bi) {
-        Mat mat = new Mat(bi.getHeight(), bi.getWidth(), CvType.CV_8UC3);
-        byte[] data = imgIO.readImageToBytes(bi);
-        mat.put(0, 0, data);
-        return mat;
-    }
-
-    public static BufferedImage to3ByteBGRImage(BufferedImage bi) {
-        BufferedImage convertedImage = new BufferedImage(bi.getWidth(), bi.getHeight(),
-                BufferedImage.TYPE_3BYTE_BGR);
-        convertedImage.getGraphics().drawImage(bi, 0, 0, null);
-        return convertedImage;
-    }
-
-    public static Mat img2Mat(BufferedImage image) {
-        image = to3ByteBGRImage(image);
-        byte[] data = imgIO.readImageToBytes(image);
-        Mat mat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
-        mat.put(0, 0, data);
-        return mat;
-    }
-
-    public static BufferedImage getSubImage(Mat mat, int x, int y, int width, int height) throws IOException {
+    public static BufferedImage getSubImage(Mat matrix, int x, int y, int width, int height) throws IOException {
         Rect rect = new Rect(x, y, width, height);
         // generate matrix of the interested region
-        Mat subImg = new Mat(mat, rect);
+        Mat subImg = new Mat(matrix, rect);
 //        Imgcodecs.imwrite("subimage.jpg", subImg);
-        return mat2Image(subImg, "png");
+        return matTobufferedImage(subImg, "png");
+    }
+
+    public static Mat resizeTo(Mat image, int width, int height){
+        Mat scale = new Mat();
+        Size size = new Size(width,height);
+        int interpolation = Imgproc.INTER_CUBIC;
+//        int interpolation = Imgproc.INTER_AREA;
+        Imgproc.resize(image, scale, size, 0, 0, interpolation);
+        return scale;
     }
 
     public static List<Rect> getTextContours(File imageFile){
@@ -169,10 +183,6 @@ public class imgCV {
         String output = Directory.PROJ_DIR + "img/" + imageFile.getName().split("\\.")[imageFile.getName().split("\\.").length-2]+"withContours.png";
         Mat img = Imgcodecs.imread(imageFile.getAbsolutePath());
         drawContoursRect(img, output, contours);
-//        for (Rect rect: contours){
-//            Imgproc.rectangle(img, new org.opencv.core.Point(rect.x,rect.y), new org.opencv.core.Point(rect.br().x-1, rect.br().y-1), new Scalar(0, 255, 0));
-//            Imgcodecs.imwrite(output,img);
-//        }
     }
 
     public static void drawContoursRect(Mat img, String output, List<Rect> contours){
