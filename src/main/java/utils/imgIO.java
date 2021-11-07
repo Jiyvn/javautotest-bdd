@@ -14,9 +14,9 @@ import java.nio.file.Files;
 public class imgIO {
 
     public static BufferedImage imageToBufferedImage(Image image){
-        if (image instanceof BufferedImage) {
-            return (BufferedImage) image;
-        }
+//        if (image instanceof BufferedImage) {
+//            return (BufferedImage) image;
+//        }
         BufferedImage bi = new BufferedImage
                 (image.getWidth(null),image.getHeight(null),BufferedImage.TYPE_INT_RGB);
         Graphics bg = bi.getGraphics();
@@ -24,6 +24,10 @@ public class imgIO {
         bg.dispose();
         return bi;
 
+    }
+
+    public static Image bufferedImageToImage(BufferedImage bufferedImage) throws IOException {
+        return ImageIO.read(new ByteArrayInputStream(bufferedImageToBytes(bufferedImage)));
     }
 
     public static BufferedImage fileToBufferedImage(String imagePath) throws IOException {
