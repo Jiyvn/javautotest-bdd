@@ -121,20 +121,21 @@ public class imgCV {
         return scale;
     }
 
-    public static List<Rect> getTextContours(File imageFile){
-        String output = Directory.PROJ_DIR + "img/" + imageFile.getName().split("\\.")[imageFile.getName().split("\\.").length-2]+"withTextRect.png";
-        Mat img = Imgcodecs.imread(imageFile.getAbsolutePath());
+    public static List<Rect> getTextContours(Mat img,
+                                             double ellipseWidth, double ellipseHeight,
+                                             double rectWidth, double rectHeight,
+                                             int minWidth, int minHeight){
         Mat gray = new Mat();
         Imgproc.cvtColor(img, gray, Imgproc.COLOR_RGB2GRAY);
 
         Mat gradient = new Mat();
-        Mat morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(3,3));
+        Mat morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(ellipseWidth,ellipseHeight));
         Imgproc.morphologyEx(gray, gradient, Imgproc.MORPH_GRADIENT , morphKernel);
 
         // binarize
         Mat opening = new Mat();
         Imgproc.threshold(gradient, opening, 0.0, 255.0, Imgproc.THRESH_BINARY + Imgproc.THRESH_OTSU);
-        morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(1.5,2));
+        morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(rectWidth,rectHeight));
 
         // horizontally oriented regions
         Mat closing = new Mat();
@@ -160,19 +161,54 @@ public class imgCV {
              * r>.45: assume at least 45% of the area is filled if it contains text
              * rect: constraints on region size
              */
-            if(r > .45 && (rect.height > 15 && rect.width > 5)) {
+            if(r > .45 && (rect.height > minHeight && rect.width > minWidth)) {
                 contoursRect.add(rect);
             }
         }
-        drawContoursRect(img, output, contoursRect);
         return contoursRect;
+    }
+
+    public static List<Rect> getTextContours(File imageFile, String output, double ellipseWidth, double ellipseHeight,
+                                             double rectWidth, double rectHeight,
+                                             int minWidth, int minHeight){
+        // read file
+        Mat img = Imgcodecs.imread(imageFile.getAbsolutePath());
+        List<Rect> contours = getTextContours(
+                img,
+                ellipseWidth, ellipseHeight,
+                rectWidth, rectHeight,
+                minWidth, minHeight
+        );
+        // output contours to file
+        drawContoursRect(img, output, contours);
+        return contours;
+    }
+
+    public static List<Rect> getTextContours(File imageFile, String output, int minWidth, int minHeight){
+        // with fixed contour recognition algorithm parameters
+        return getTextContours(
+                imageFile, output,
+                3, 3,
+                1.5, 2,
+                minWidth, minHeight
+        );
+    }
+
+    public static List<Rect> getTextContours(File imageFile, String output){
+        // with fixed contour result criteria parameters
+        return getTextContours(imageFile, output, 5, 15);
+    }
+
+    public static List<Rect> getTextContours(File imageFile){
+        String output = Directory.PROJ_DIR + "img/" + imageFile.getName().split("\\.")[imageFile.getName().split("\\.").length-2]+"withTextRect.png";
+        return getTextContours(imageFile, output);
     }
 
     public static List<Rect> getOneTextContourOfEachRow(List<Rect> contours){
         List<Rect> crs = new ArrayList<>();
         for (Rect rect : contours) {
-            if (crs.stream().noneMatch(cr -> (cr.y - cr.height <= rect.y && rect.y <= cr.y + cr.height)
-                    || (rect.y - rect.height <= cr.y && cr.y <= rect.y + rect.height))) {
+            if (crs.stream().noneMatch(cr -> (cr.y <= rect.y && rect.y <= cr.y + cr.height)
+                    || (rect.y <= cr.y && cr.y <= rect.y + rect.height))) {
                 crs.add(rect);
             }
         }
