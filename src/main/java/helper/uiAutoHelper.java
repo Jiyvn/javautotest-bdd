@@ -9,18 +9,18 @@ public class uiAutoHelper {
     /*
      * driver
      */
-    public static InheritableThreadLocal<WebDriver> Driver = new InheritableThreadLocal<WebDriver>() {
+    public static InheritableThreadLocal<WebDriver> driver = new InheritableThreadLocal<WebDriver>() {
         protected synchronized WebDriver initialValue() {
             return null;
         }
     };
 
     public static WebDriver getDriver() {
-        return Driver.get();
+        return driver.get();
     }
 
-    public static void setDriver(WebDriver driver) {
-        Driver.set(driver);
+    public static void setDriver(WebDriver webDriver) {
+        driver.set(webDriver);
     }
 
     public static InheritableThreadLocal<String> browser = new InheritableThreadLocal<String>() {
@@ -58,7 +58,7 @@ public class uiAutoHelper {
     public static void reset(){
         browser.remove();
         desiredCaps.remove();
-        Driver.remove();
+        driver.remove();
     }
 
     public static void quit(){

@@ -7,7 +7,7 @@ import io.cucumber.java.Scenario;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class uiModel {
+public class ui {
     protected WebDriver driver = uiAutoHelper.getDriver();
     protected String defaultBrowser = uiAutoHelper.getBrowser();
     protected Boolean DefaultBrowser = true;

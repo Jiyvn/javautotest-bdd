@@ -9,7 +9,7 @@ import listener.TestListener;
 @CucumberOptions(
         features = "src/test/resources/features/Search.feature",
 //        features = "src/test/resources/features",
-        glue = "steps", monochrome = true,
+        glue = "steps/web", monochrome = true,
         plugin = {
 //                "pretty",
 //                "json:target/cucumber-report/CucumberRunner.json",

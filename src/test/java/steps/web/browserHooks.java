@@ -1,4 +1,4 @@
-package steps;
+package steps.web;
 
 import helper.cucumberHelper;
 import helper.uiAutoHelper;
@@ -6,7 +6,6 @@ import io.cucumber.java.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.capturer;
 import utils.configLoader;
 
 public class browserHooks {
