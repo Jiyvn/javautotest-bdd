@@ -51,7 +51,7 @@ public class Search extends ui {
 //        scenario.attach(
 //                ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png", "Page screenshot"
 //        );
-        cucumberHelper.attachImage(driver);
+        uiAutoHelper.attachImage("after search:"+word);
     }
 
     @And("浏览器:{word}")

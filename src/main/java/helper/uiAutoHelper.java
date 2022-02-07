@@ -1,8 +1,11 @@
 package helper;
 
-import io.cucumber.java.Scenario;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import auto.capturer;
+
+import java.util.Base64;
 
 public class uiAutoHelper {
 
@@ -63,5 +66,19 @@ public class uiAutoHelper {
 
     public static void quit(){
         getDriver().quit();
+    }
+
+    // full screen capture
+    public static void attachImage(String Name){
+        cucumberHelper.attach(new capturer().captureFullScreen(getDriver()), "image/png", Name);
+    }
+
+    // WebElement capture
+    public static void attachImage(WebElement element, String Name){
+        cucumberHelper.attach(new capturer().takeScreenShot(element), "image/png", Name);
+    }
+
+    public static void attachVideo(byte[] data, String Name){
+        cucumberHelper.attach(Base64.getMimeDecoder().decode(data), "video/mp4", Name);
     }
 }
