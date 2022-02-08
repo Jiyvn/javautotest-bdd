@@ -293,9 +293,9 @@ public class AppiumService {
                         String.format("No process running on port %s", this.port)
                 );
             }
-            String cmd = os.startsWith("Windows")
-                    ? "cmd /c taskkill /f /pid " + pid
-                    : "kill" + pid;
+            String[] cmd = os.startsWith("Windows")
+                    ? new String[]{"cmd", "/c", "taskkill /f /pid " + pid}
+                    : new String[]{"/bin/sh", "-c", "kill" + pid};
             Runtime.getRuntime().exec(cmd);
             log.info(String.format("appium %s killed on %s", pid, this.port));
         }catch (IOException ignored){
