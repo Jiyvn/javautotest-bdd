@@ -13,7 +13,8 @@ import listener.TestListener;
         plugin = {
 //                "pretty",
 //                "json:target/cucumber-report/CucumberRunner.json",
-                "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm",
+//                "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
                 "listener.cucumberListener",
                 "progress",
                 "summary",

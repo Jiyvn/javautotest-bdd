@@ -9,15 +9,18 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <Encoding>UTF-8</Encoding>
-        <cucumber.version>6.10.4</cucumber.version>
-        <appium-java-client>7.5.0</appium-java-client>
-        <maven-surefire-plugin>2.20</maven-surefire-plugin>
-        <testng.version>7.4.0</testng.version>
-        <allure.version>2.14.0</allure.version>
-        <aspectj.version>1.8.10</aspectj.version>
+        <plugin.surefire.version>2.20</plugin.surefire.version>
+        <plugin.compiler.version>3.8.1</plugin.compiler.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <threads>2</threads>
+
+        <cucumber.version>7.2.3</cucumber.version>
+        <appium.client.version>7.6.0</appium.client.version>
+        <testng.version>7.5</testng.version>
+        <allure.version>2.17.2</allure.version>
+        <aspectj.version>1.9.7</aspectj.version>
+
+        <threads>5</threads>
 <!--        <file>src/test/resources/default.xml</file>-->
     </properties>
     <build>
@@ -25,7 +28,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${plugin.compiler.version}</version>
                 <configuration>
                     <encoding>${Encoding}</encoding>
                     <source>8</source>
@@ -35,13 +38,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20</version>
+                <version>${plugin.surefire.version}</version>
                 <configuration>
                     <testFailureIgnore>false</testFailureIgnore>
+                    <!--for what-->
                     <argLine>
                         -Dfile.encoding=UTF-8
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                        -Dcucumber.options="--plugin io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"
+                        -Dcucumber.options="--plugin io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
                     </argLine>
                     <suiteXmlFiles>
 <!--                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>-->
@@ -96,12 +100,12 @@
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>${appium-java-client}</version>
+            <version>${appium.client.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.75</version>
+            <version>1.2.79</version>
         </dependency>
         <!--        <dependency>-->
         <!--            <groupId>com.alibaba</groupId>-->
@@ -116,17 +120,17 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.28</version>
+            <version>1.29</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
+            <version>1.18.22</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.30</version>
+            <version>1.7.35</version>
         </dependency>
         <!-- "logback-classic" To avoid:
         SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
@@ -136,7 +140,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.10</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>junit</groupId>-->
@@ -147,7 +151,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.8.0</version>
+            <version>2.11.0</version>
         </dependency>
         <!--lead to duplicated report-->
 <!--        <dependency>-->
@@ -176,7 +180,7 @@
         <!-- for runner -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber6-jvm</artifactId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
 
@@ -196,7 +200,7 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>2.6.0</version>
+            <version>2.7.0</version>
         </dependency>
 <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.openpnp/opencv &ndash;&gt;-->
 <!--        <dependency>-->
