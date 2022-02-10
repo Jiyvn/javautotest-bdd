@@ -1,4 +1,4 @@
-package steps;
+package steps.web;
 
 import auto.Browser;
 //import io.cucumber.java.*;
@@ -7,7 +7,7 @@ import helper.uiAutoHelper;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
-import model.uiModel;
+import model.ui;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 
 
-public class Search extends uiModel {
+public class Search extends ui {
     static Logger log = LoggerFactory.getLogger(Search.class);
 
     private String word;
@@ -51,7 +51,7 @@ public class Search extends uiModel {
 //        scenario.attach(
 //                ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png", "Page screenshot"
 //        );
-        cucumberHelper.attachImage(driver);
+        uiAutoHelper.attachImage("after search:"+word);
     }
 
     @And("浏览器:{word}")

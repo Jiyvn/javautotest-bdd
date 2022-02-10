@@ -1,4 +1,4 @@
-package steps;
+package steps.web;
 
 import helper.cucumberHelper;
 import io.cucumber.java.After;

@@ -1,26 +1,29 @@
 package helper;
 
-import io.cucumber.java.Scenario;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import auto.capturer;
+
+import java.util.Base64;
 
 public class uiAutoHelper {
 
     /*
      * driver
      */
-    public static InheritableThreadLocal<WebDriver> Driver = new InheritableThreadLocal<WebDriver>() {
+    public static InheritableThreadLocal<WebDriver> driver = new InheritableThreadLocal<WebDriver>() {
         protected synchronized WebDriver initialValue() {
             return null;
         }
     };
 
     public static WebDriver getDriver() {
-        return Driver.get();
+        return driver.get();
     }
 
-    public static void setDriver(WebDriver driver) {
-        Driver.set(driver);
+    public static void setDriver(WebDriver webDriver) {
+        driver.set(webDriver);
     }
 
     public static InheritableThreadLocal<String> browser = new InheritableThreadLocal<String>() {
@@ -58,10 +61,24 @@ public class uiAutoHelper {
     public static void reset(){
         browser.remove();
         desiredCaps.remove();
-        Driver.remove();
+        driver.remove();
     }
 
     public static void quit(){
         getDriver().quit();
+    }
+
+    // full screen capture
+    public static void attachImage(String Name){
+        cucumberHelper.attach(new capturer().captureFullScreen(getDriver()), "image/png", Name);
+    }
+
+    // WebElement capture
+    public static void attachImage(WebElement element, String Name){
+        cucumberHelper.attach(new capturer().takeScreenShot(element), "image/png", Name);
+    }
+
+    public static void attachVideo(byte[] data, String Name){
+        cucumberHelper.attach(Base64.getMimeDecoder().decode(data), "video/mp4", Name);
     }
 }

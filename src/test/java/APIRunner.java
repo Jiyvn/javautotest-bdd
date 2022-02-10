@@ -1,15 +1,14 @@
-import io.cucumber.testng.*;
-
-import org.testng.annotations.*;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
 import listener.TestListener;
-
-
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 
 @Listeners(TestListener.class)
 @CucumberOptions(
-        features = "src/test/resources/features/Search.feature",
+        features = "src/test/resources/features/api.feature",
 //        features = "src/test/resources/features",
-        glue = "steps/web", monochrome = true,
+        glue = "steps/api", monochrome = true,
         plugin = {
 //                "pretty",
 //                "json:target/cucumber-report/CucumberRunner.json",
@@ -21,13 +20,13 @@ import listener.TestListener;
 //                "testng"
         }
 )
-public class CucumberSearchRunner extends AbstractTestNGCucumberTests {
+public class APIRunner extends AbstractTestNGCucumberTests {
 
-        @Override
-        @DataProvider(parallel = true)
+    @Override
+    @DataProvider(parallel = true)
 //        @DataProvider
-        public Object[][] scenarios() {
-                return super.scenarios();
-        }
+    public Object[][] scenarios() {
+        return super.scenarios();
+    }
 
 }

@@ -1,4 +1,4 @@
-package utils;
+package auto;
 
 import org.openqa.selenium.*;
 

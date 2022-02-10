@@ -1,12 +1,12 @@
-package steps;
+package steps.web;
 
 import helper.cucumberHelper;
 import helper.uiAutoHelper;
 import io.cucumber.java.*;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.capturer;
 import utils.configLoader;
 
 public class browserHooks {
@@ -31,14 +31,22 @@ public class browserHooks {
 //        log.info("class: " + browserHooks.class.getName());
 //        log.info("after --> scenario: " + this.scenario.getName());
         log.info("Stopped on Step: " + cucumberHelper.getStepName());
-        cucumberHelper.takeScreenshotIfFailed(
-                uiAutoHelper.getDriver(),
-                this.scenario.getName()+ "_" + cucumberHelper.getStepName()
-        );
         uiAutoHelper.quit();
         uiAutoHelper.reset();
     }
 
+    @After(order = 2)
+    public void takeScreenshot(){
+        Status state = cucumberHelper.getScenario().getStatus();
+        try {
+//            if (state.equals(Status.FAILED) || state.equals(Status.UNDEFINED)) {
+            if (state.equals(Status.FAILED)) {
+                uiAutoHelper.attachImage(cucumberHelper.getScenario().getName() + "__" + cucumberHelper.getStep().getStep().getText());
+            }
+        } catch (WebDriverException e) {
+            e.printStackTrace();
+        }
+    }
 //    @AfterStep
 //    public void afterStep(){
 ////        log.info("afterStep -- stepName -->  " + cucumberHelper.getStepName());

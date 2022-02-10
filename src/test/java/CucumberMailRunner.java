@@ -11,11 +11,12 @@ import listener.TestListener;
 @CucumberOptions(
         features = "src/test/resources/features/login163mail.feature",
 //        features = "src/test/resources/features",
-        glue = "steps", monochrome = true,
+        glue = "steps/web", monochrome = true,
         plugin = {
 //                "pretty",
 //                "json:target/cucumber-report/CucumberRunner.json",
-                "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm",
+//                "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
                 "listener.cucumberListener",
                 "progress",
                 "summary",

@@ -1,4 +1,4 @@
-package steps;
+package steps.web;
 
 import auto.Browser;
 import helper.uiAutoHelper;
@@ -8,7 +8,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import model.uiModel;
+import model.ui;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,7 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
 
-public class Login163 extends uiModel {
+public class Login163 extends ui {
 
     private String mail;
     private String password;
