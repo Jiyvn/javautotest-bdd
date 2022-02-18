@@ -78,6 +78,10 @@ public class browserHooks {
                 && !(cucumberHelper.getException() instanceof JavAutoException)){
             // page source analysis
             // throw corresponding exception if something found
+            cucumberHelper.log("cucumber log: instanceof JavAutoException");
+
+        }else if(cucumberHelper.getScenario().isFailed()){
+            cucumberHelper.log("case failed");
         }
     }
 

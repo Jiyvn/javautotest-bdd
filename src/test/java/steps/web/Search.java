@@ -2,6 +2,7 @@ package steps.web;
 
 import auto.Browser;
 //import io.cucumber.java.*;
+import auto.exceptions.JavAutoException;
 import helper.cucumberHelper;
 import helper.uiAutoHelper;
 import io.cucumber.java.en.Given;
@@ -83,7 +84,8 @@ public class Search extends ui {
 
     @And("打开www")
     public void openwww() {
-        assert 1 == 0;
+//        assert 1 == 0;
+        throw new JavAutoException();
     }
 
     @And("点击xxx")
