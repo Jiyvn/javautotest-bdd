@@ -72,4 +72,9 @@ public class cucumberHelper {
         getScenario().attach(data, mediaType, fileName);
     }
 
+    // log message
+    public static void log(String message){
+        getScenario().log(message);
+    }
+
 }
