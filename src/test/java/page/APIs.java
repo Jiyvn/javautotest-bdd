@@ -1,4 +1,4 @@
-package utils;
+package page;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
