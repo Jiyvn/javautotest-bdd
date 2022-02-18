@@ -35,6 +35,8 @@ public class cucumberListener implements ConcurrentEventListener {
     public void setEventPublisher(EventPublisher publisher) {
         publisher.registerHandlerFor(TestStepStarted.class, this.stepStartedHandler);
         publisher.registerHandlerFor(TestStepFinished.class, this.stepFinishedHandler);
+        publisher.registerHandlerFor(TestCaseStarted.class, this.caseStartedHandler);
+        publisher.registerHandlerFor(TestCaseFinished.class, this.caseFinishedHandler);
     }
 
     public void handleStepStarted(TestStepStarted event){
