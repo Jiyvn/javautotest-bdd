@@ -1,28 +1,30 @@
-package steps.web;
+package steps.app;
 
 import auto.exceptions.JavAutoException;
 import helper.cucumberHelper;
 import helper.uiAutoHelper;
-import io.cucumber.java.*;
+import io.appium.java_client.ios.IOSDriver;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import io.cucumber.java.Status;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.configLoader;
 
-public class browserHooks {
-    public static Logger log = LoggerFactory.getLogger(browserHooks.class);
+public class appHooks {
+    public static Logger log = LoggerFactory.getLogger(appHooks.class);
 
-    protected String defaultBrowser = System.getProperty("browser", "firefox");
     protected Scenario scenario;
     protected String pageSource;
 
     @Before(order = 1)
     public void beforeScenario(){
-//        log.info("class: " + browserHooks.class.getName());
-        configLoader.setProperties();
+//        log.info("class: " + appHooks.class.getName());
+//        configLoader.setProperties();
         uiAutoHelper.setDesiredCaps(new DesiredCapabilities());
-        uiAutoHelper.setBrowser(defaultBrowser.toLowerCase());
         this.scenario = cucumberHelper.getScenario();
         this.pageSource = "";
 //        log.info("before --> scenario: " + this.scenario.getName());
@@ -31,7 +33,7 @@ public class browserHooks {
 
     @After(order = 1)
     public void afterScenario(){
-//        log.info("class: " + browserHooks.class.getName());
+//        log.info("class: " + appHooks.class.getName());
 //        log.info("after --> scenario: " + this.scenario.getName());
         log.info("Stopped on Step: " + cucumberHelper.getStepName());
         uiAutoHelper.quit();
@@ -53,24 +55,12 @@ public class browserHooks {
 
     @After(order = 10000)
     public void getPageSource(){
-        this.pageSource = uiAutoHelper.getDriver().getPageSource();
+        if(uiAutoHelper.getDriver() instanceof IOSDriver) {
+            this.pageSource = uiAutoHelper.getDriver().getPageSource().replace("<", "*");
+        }else {
+            this.pageSource = uiAutoHelper.getDriver().getPageSource();
+        }
     }
-//    @AfterStep
-//    public void afterStep(){
-////        log.info("afterStep -- stepName -->  " + cucumberHelper.getStepName());
-//        if (cucumberHelper.getFirstly()) {
-//            cucumberHelper.setFirstly(false);
-//        }
-//    }
-//    @BeforeStep
-//    public void beforeStep(){
-//        if (!cucumberHelper.getFirstly()) {
-////            log.info("beforeStep -- stepName -->  " + cucumberHelper.getStepName());
-//        }else{
-////            log.info("beforeStep - first running");
-//        }
-//
-//    }
 
     @After(order = 2)
     public void assertPageSource(){
@@ -80,5 +70,4 @@ public class browserHooks {
             // throw corresponding exception if something found
         }
     }
-
 }
