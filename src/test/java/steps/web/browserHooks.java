@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.configLoader;
+import auto.propertyLoader;
 
 public class browserHooks {
     public static Logger log = LoggerFactory.getLogger(browserHooks.class);
@@ -20,7 +20,7 @@ public class browserHooks {
     @Before(order = 1)
     public void beforeScenario(){
 //        log.info("class: " + browserHooks.class.getName());
-        configLoader.setProperties();
+        propertyLoader.setProperties();
         uiAutoHelper.setDesiredCaps(new DesiredCapabilities());
         uiAutoHelper.setBrowser(defaultBrowser.toLowerCase());
         this.scenario = cucumberHelper.getScenario();

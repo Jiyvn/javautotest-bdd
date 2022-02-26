@@ -1,6 +1,6 @@
 package steps.web;
 
-import auto.Browser;
+import auto.client.Browser;
 //import io.cucumber.java.*;
 import auto.exceptions.JavAutoException;
 import helper.cucumberHelper;
@@ -41,7 +41,7 @@ public class Search extends ui {
 
         if (driver == null) {
             log.info("driver is null");
-            driver = page.setBrowser(defaultBrowser).setOptions().Start();
+            driver = page.setBrowser(defaultBrowser).setOptions().Remote();
             uiAutoHelper.setDriver(driver);
         }
         driver.get("https://www.baidu.com");
@@ -77,7 +77,7 @@ public class Search extends ui {
                     caps = new DesiredCapabilities();
             }
             page = new Browser(caps);
-            driver = page.setBrowser(browser.toLowerCase()).setOptions().Start();
+            driver = page.setBrowser(browser.toLowerCase()).setOptions().Remote();
             uiAutoHelper.setDriver(driver);
         }
     }

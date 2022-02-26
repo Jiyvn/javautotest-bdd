@@ -1,4 +1,4 @@
-package auto;
+package auto.actions;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidStartScreenRecordingOptions;
@@ -13,11 +13,11 @@ import org.openqa.selenium.OutputType;
 import java.time.Duration;
 
 
-public class capturer {
+public class Capturer {
 
     protected WebDriver driver;
 
-    public capturer setDriver(WebDriver driver){
+    public Capturer setDriver(WebDriver driver){
         this.driver = driver;
         return this;
     }

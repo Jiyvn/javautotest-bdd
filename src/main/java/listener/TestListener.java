@@ -1,6 +1,6 @@
 package listener;
 
-import auto.Report;
+import auto.report.AllureReporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.*;
@@ -55,8 +55,8 @@ public class TestListener implements ITestListener {
 //            log.info("context.getFailedTests: " + context.getFailedTests());
 //            log.info("context.getPassedTests: " + context.getPassedTests());
 //            Report.setReport(context.getCurrentXmlTest().getSuite().getName());
-            Report.Clean();
-            Report.dumpReport();
+            AllureReporter.Clean();
+            AllureReporter.dumpReport();
         } catch (IOException e) {
             e.printStackTrace();
         }

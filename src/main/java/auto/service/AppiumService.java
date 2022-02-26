@@ -1,5 +1,8 @@
-package auto;
+package auto.service;
 
+import auto.Directory;
+import utils.netPin;
+import auto.exceptions.AppiumNotStart;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
@@ -140,7 +143,7 @@ public class AppiumService {
         }
         this.argumentList.add("--port");
         if (this.port == null){
-            List<int []> ports = Talk.getFreePort(4723, 1, 2);
+            List<int []> ports = netPin.getFreePort(4723, 1, 2);
             this.port = String.valueOf(ports.stream().findFirst().get()[0]);
             this.bp = String.valueOf(ports.stream().findFirst().get()[1]);
         }
@@ -213,14 +216,14 @@ public class AppiumService {
         service = AppiumDriverLocalService.buildService(builder);
         service.start();
         if (service == null || !service.isRunning()) {
-            throw new RuntimeException("Appium not started!");
+            throw new AppiumNotStart("Appium not started!");
         }
         return service.getUrl();
     }
 
     public boolean isRunning() {
         try {
-            return Talk.isActive(String.format(HUB, DEFAULT_HOST, Integer.parseInt(this.port)) +"/status");
+            return netPin.isActive(String.format(HUB, DEFAULT_HOST, Integer.parseInt(this.port)) +"/status");
         }catch (IOException e) {
             return false;
         }
@@ -243,7 +246,7 @@ public class AppiumService {
             }
 
         }
-        throw new RuntimeException("Appium not started!");
+        throw new AppiumNotStart("Appium not started!");
     }
 
     public String getPid(String port) throws IOException {

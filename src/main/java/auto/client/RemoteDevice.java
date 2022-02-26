@@ -1,4 +1,4 @@
-package auto;
+package auto.client;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -13,15 +13,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class Client {
+public class RemoteDevice {
 
     public WebDriver driver;
     public DesiredCapabilities desiredCaps = new DesiredCapabilities();
 
-    public Client() {
+    public RemoteDevice() {
     }
 
-    public Client(DesiredCapabilities desCaps) {
+    public RemoteDevice(DesiredCapabilities desCaps) {
         this.desiredCaps = desCaps;
     }
 
@@ -38,8 +38,6 @@ public class Client {
             found = true;
         } catch (TimeoutException e) {
             return false;
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return found;
     }
@@ -57,8 +55,6 @@ public class Client {
             found = true;
         } catch (TimeoutException e) {
             return false;
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return found;
     }

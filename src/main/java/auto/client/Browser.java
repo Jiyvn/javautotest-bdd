@@ -1,4 +1,4 @@
-package auto;
+package auto.client;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class Browser extends Client{
+public class Browser extends RemoteDevice {
 
     public String serverUrl = null;
     private Object options;
@@ -75,7 +75,7 @@ public class Browser extends Client{
         return this;
     }
 
-    public WebDriver Start() throws
+    public WebDriver Remote() throws
             ClassNotFoundException, IllegalAccessException,
             InstantiationException, NoSuchMethodException, InvocationTargetException, MalformedURLException, NoSuchFieldException {
         if(serverUrl == null){

@@ -1,6 +1,6 @@
-package utils;
+package auto;
 
-public class configLoader {
+public class propertyLoader {
 
     public static void setProperties(){
         String home = System.getenv("HOME") == null ? System.getenv("HOMEPATH") : System.getenv("HOME");
