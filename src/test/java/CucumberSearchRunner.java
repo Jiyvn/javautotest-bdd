@@ -1,8 +1,12 @@
+import auto.client.Browser;
 import io.cucumber.testng.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 import listener.TestListener;
 
+import java.util.logging.Level;
 
 
 @Listeners(TestListener.class)
@@ -18,16 +22,26 @@ import listener.TestListener;
                 "listener.cucumberListener",
                 "progress",
                 "summary",
-//                "testng"
+//                "testng",
+                // mvn test && mvn test -Dcucumber.features="@searchRerun.txt"
+                "rerun:searchRerun.txt"
         }
 )
 public class CucumberSearchRunner extends AbstractTestNGCucumberTests {
+        public static Logger log = LoggerFactory.getLogger(CucumberSearchRunner.class);
 
         @Override
         @DataProvider(parallel = true)
 //        @DataProvider
         public Object[][] scenarios() {
                 return super.scenarios();
+        }
+
+        @BeforeClass
+        public void setLog(){
+                log.info("set log level to OFF");
+                java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
+                java.util.logging.Logger.getLogger("io.netty").setLevel(Level.OFF);
         }
 
 }
