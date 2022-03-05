@@ -3,8 +3,10 @@ package auto.client;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,6 +15,7 @@ import java.net.URL;
 
 
 public class Browser extends RemoteDevice {
+    public static Logger log = LoggerFactory.getLogger(Browser.class);
 
     public String serverUrl = null;
     private Object options;
@@ -55,14 +58,21 @@ public class Browser extends RemoteDevice {
         return this;
     }
 
-    public Browser headless() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public Browser headless() throws ReflectiveOperationException {
         Method func = this.optionCls.getDeclaredMethod("setHeadless", boolean.class);
 //        Method func = this.options.getClass().getDeclaredMethod("setHeadless", boolean.class);
         func.invoke(this.options, true);
         return this;
     }
 
-    public Browser setOptions() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public Browser setOptions() throws ReflectiveOperationException {
+       log.debug(String.format("org.openqa.selenium.%s.%sOptions",
+               browser.toLowerCase(),
+               browser.equals("ie")
+                       ? "InternetExplorer"
+                       : browser.substring(0, 1).toUpperCase() +
+                       browser.substring(1).toLowerCase()
+       ));
         this.optionCls = Class.forName(String.format("org.openqa.selenium.%s.%sOptions",
                 browser.toLowerCase(),
                 browser.equals("ie")
@@ -75,9 +85,14 @@ public class Browser extends RemoteDevice {
         return this;
     }
 
-    public WebDriver Remote() throws
-            ClassNotFoundException, IllegalAccessException,
-            InstantiationException, NoSuchMethodException, InvocationTargetException, MalformedURLException, NoSuchFieldException {
+    public WebDriver Remote() throws ReflectiveOperationException, MalformedURLException {
+        log.debug(String.format("org.openqa.selenium.%s.%sDriver",
+                browser.toLowerCase(),
+                browser.equals("ie")
+                        ? "InternetExplorer"
+                        : browser.substring(0, 1).toUpperCase() +
+                        browser.substring(1).toLowerCase()
+        ));
         if(serverUrl == null){
             this.driverCls = Class.forName(String.format("org.openqa.selenium.%s.%sDriver",
                     browser.toLowerCase(),

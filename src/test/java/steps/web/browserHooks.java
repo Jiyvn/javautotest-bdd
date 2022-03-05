@@ -20,7 +20,7 @@ public class browserHooks {
     @Before(order = 1)
     public void beforeScenario(){
 //        log.info("class: " + browserHooks.class.getName());
-        propertyLoader.setProperties();
+        propertyLoader.setDriverExecutor();
         uiAutoHelper.setDesiredCaps(new DesiredCapabilities());
         uiAutoHelper.setBrowser(defaultBrowser.toLowerCase());
         this.scenario = cucumberHelper.getScenario();

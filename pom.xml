@@ -27,6 +27,10 @@
         <aspectj.version>1.9.7</aspectj.version>
 
         <threads>5</threads>
+<!--        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
+        <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>
+<!--        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>-->
+<!--        <suiteXmlFile>src/test/resources/mail163.xml</suiteXmlFile>-->
 <!--        <file>src/test/resources/default.xml</file>-->
     </properties>
     <build>
@@ -54,8 +58,8 @@
                         -Dcucumber.options="--plugin io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
                     </argLine>
                     <suiteXmlFiles>
-<!--                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>-->
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+<!--                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/test/resources/mail163.xml</suiteXmlFile>-->
