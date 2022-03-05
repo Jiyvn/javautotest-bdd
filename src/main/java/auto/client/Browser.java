@@ -88,10 +88,11 @@ public class Browser extends RemoteDevice {
 //            func.invoke(this.options, ChromeDriverLogLevel.OFF);
 //            Method[] funcs = this.optionCls.getDeclaredMethods();
 //            log.info("DeclaredMethods: "+Arrays.toString(funcs));
-            //Variadic fuction
-            Method func = this.optionCls.getDeclaredMethod("addArguments", String[].class);
+            //Variadic function, getMethod allow getting method from parent class
+            Method func = this.optionCls.getMethod("addArguments", String[].class);
             func.setAccessible(true);
             func.invoke(this.options, new Object[]{new String[]{"--log-level=3"}});
+//            org.openqa.selenium.chrome.ChromeOptions.addArguments()
         }catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
