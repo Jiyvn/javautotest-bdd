@@ -1,7 +1,6 @@
 package steps.web;
 
 import auto.client.Browser;
-//import io.cucumber.java.*;
 import auto.exceptions.JavAutoException;
 import helper.cucumberHelper;
 import helper.uiAutoHelper;
@@ -47,7 +46,7 @@ public class Search extends ui {
         System.out.println(cucumberHelper.getScenario().getName() + "  When -- 打开百度，输入搜索词搜索");
 
         if (driver == null) {
-            log.info("driver is null");
+            log.info("driver is null (not determined), initializing with default browser - "+defaultBrowser);
             driver = page.setBrowser(defaultBrowser).setOptions().Remote();
             uiAutoHelper.setDriver(driver);
         }
@@ -96,7 +95,10 @@ public class Search extends ui {
 //            }
             caps = new DesiredCapabilities();
             page = new Browser(caps);
-            driver = page.setBrowser(browser.toLowerCase()).setOptions().Remote();
+            driver = page
+                    .setBrowser(browser.toLowerCase())
+                    .setOptions()
+                    .Remote();
             uiAutoHelper.setDriver(driver);
         }
     }
