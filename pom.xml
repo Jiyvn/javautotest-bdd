@@ -212,7 +212,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.35</version>
+            <version>1.7.36</version>
         </dependency>
         <!-- "logback-classic" To avoid:
         SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".

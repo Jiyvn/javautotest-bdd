@@ -8,10 +8,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import io.qameta.allure.Attachment;
+import lombok.extern.slf4j.Slf4j;
 import model.ui;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -23,9 +26,9 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 
-
+@Slf4j
 public class Search extends ui {
-    static Logger log = LoggerFactory.getLogger(Search.class);
+//    static Logger log = LoggerFactory.getLogger(Search.class);
 
     private String word;
 
@@ -50,6 +53,8 @@ public class Search extends ui {
             driver = page.setBrowser(defaultBrowser).setOptions().Remote();
             uiAutoHelper.setDriver(driver);
         }
+        LogEntries logs = driver.manage().logs().get(LogType.BROWSER);
+
         driver.get("https://www.baidu.com");
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 //        driver.findElement(By.id("kw")).sendKeys(word);

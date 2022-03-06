@@ -1,5 +1,6 @@
 package auto.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriverLogLevel;
@@ -18,9 +19,9 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
+@Slf4j
 public class Browser extends RemoteDevice {
-    public static Logger log = LoggerFactory.getLogger(Browser.class);
+//    public static Logger log = LoggerFactory.getLogger(Browser.class);
 
     public String serverUrl = null;
     private Object options;
@@ -92,7 +93,12 @@ public class Browser extends RemoteDevice {
             Method func = this.optionCls.getMethod("addArguments", String[].class);
             func.setAccessible(true);
             func.invoke(this.options, new Object[]{new String[]{"--log-level=3"}});
-//            org.openqa.selenium.chrome.ChromeOptions.addArguments()
+//            func.invoke(this.options, new Object[]{new String[]{"--log-level=3", "--silent"}});
+//            new org.openqa.selenium.chrome.ChromeOptions().addArguments();
+//            new org.openqa.selenium.firefox.FirefoxOptions().addArguments();
+//            new org.openqa.selenium.edge.EdgeOptions().addArguments();
+//            // no such method
+//            new org.openqa.selenium.safari.SafariOptions().addArguments();
         }catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
