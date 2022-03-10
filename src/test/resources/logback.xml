@@ -1,14 +1,50 @@
 <configuration>
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n</pattern>
+<!--            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] %logger{36} [%file:%line]- %msg%n</pattern>-->
+            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%file:%line]- %msg%n</pattern>
+            <charset>utf-8</charset>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%logger{36}] [%file:%line]- %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>log/output.%d{yyyyMMdd-HHmm.ss}.log</fileNamePattern>
+            <!-- keep 10 days' worth of history capped at 200MB total size -->
+            <maxHistory>10</maxHistory>
+            <maxFileSize>200M</maxFileSize>
+        </rollingPolicy>
+        <rollingPolicy class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMatch>DENY</onMatch>
+        </rollingPolicy>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="STDOUT" />
+    <appender name="FILE_BYSEC" class="ch.qos.logback.core.FileAppender">
+        <encoder>
+            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%logger{36}] [%file:%line]- %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder><!-- use the previously created timestamp to create a uniquely
+             named log file -->
+        <file>log/output.${bySecond}.log</file>
+
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
     </root>
+
 </configuration>
