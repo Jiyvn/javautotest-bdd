@@ -2,15 +2,19 @@ package auto.client;
 
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.remote.AbstractDriverOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.safari.SafariOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,6 +148,34 @@ public class Browser extends RemoteDevice {
 //        func.invoke(this.options, url);
         return this;
 
+    }
+
+    public Browser dragInViewPort(WebElement element){
+        ((Locatable) element).getCoordinates().inViewPort();
+//        ((JavascriptExecutor) driver).executeScript(
+//                "arguments[0].scrollIntoView();", element);
+//        ((JavascriptExecutor) driver).executeScript(
+//                "arguments[0].scrollIntoView(true);", element);
+//        String javaScript = "var evObj = document.createEvent('MouseEvents');" +
+//                "evObj.initMouseEvent(\"mouseover\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
+//                "arguments[0].dispatchEvent(evObj);";
+//        ((JavascriptExecutor)driver).executeScript(javaScript, element);
+        return this;
+    }
+
+    public static boolean isVisibleInViewport(WebElement element) {
+        WebDriver driver = ((RemoteWebElement)element).getWrappedDriver();
+        String js = "var elem = arguments[0],                 " +
+                "  box = elem.getBoundingClientRect(),    " +
+                "  cx = box.left + box.width / 2,         " +
+                "  cy = box.top + box.height / 2,         " +
+                "  e = document.elementFromPoint(cx, cy); " +
+                "for (; e; e = e.parentElement) {         " +
+                "  if (e === elem)                        " +
+                "    return true;                         " +
+                "}                                        " +
+                "return false;                            ";
+        return (boolean) ((JavascriptExecutor)driver).executeScript(js, element);
     }
 
 }
