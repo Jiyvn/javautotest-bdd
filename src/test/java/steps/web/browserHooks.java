@@ -17,7 +17,7 @@ public class browserHooks {
     protected Scenario scenario;
     protected String pageSource;
 
-    @Before(order = 1)
+    @Before(order = 1, value = "@web")
     public void beforeScenario(){
 //        log.info("class: " + browserHooks.class.getName());
         propertyLoader.setDriverExecutor();
@@ -29,7 +29,7 @@ public class browserHooks {
 
     }
 
-    @After(order = 1)
+    @After(order = 1, value = "@web")
     public void afterScenario(){
 //        log.info("class: " + browserHooks.class.getName());
 //        log.info("after --> scenario: " + this.scenario.getName());
@@ -38,7 +38,7 @@ public class browserHooks {
         uiAutoHelper.reset();
     }
 
-    @After(order = 10001)
+    @After(order = 10001, value = "@web")
     public void takeScreenshot(){
         Status state = cucumberHelper.getScenario().getStatus();
         try {
@@ -51,7 +51,7 @@ public class browserHooks {
         }
     }
 
-    @After(order = 10000)
+    @After(order = 10000, value = "@web")
     public void getPageSource(){
         this.pageSource = uiAutoHelper.getDriver().getPageSource();
     }
@@ -72,7 +72,7 @@ public class browserHooks {
 //
 //    }
 
-    @After(order = 2)
+    @After(order = 2, value = "@web")
     public void assertPageSource(){
         if(cucumberHelper.getScenario().isFailed()
                 && !(cucumberHelper.getException() instanceof JavAutoException)){

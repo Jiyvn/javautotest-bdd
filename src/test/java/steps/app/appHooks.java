@@ -19,7 +19,7 @@ public class appHooks {
     protected Scenario scenario;
     protected String pageSource;
 
-    @Before(order = 1)
+    @Before(order = 1, value = "@app")
     public void beforeScenario(){
 //        log.info("class: " + appHooks.class.getName());
 //        configLoader.setProperties();
@@ -30,7 +30,7 @@ public class appHooks {
 
     }
 
-    @After(order = 1)
+    @After(order = 1, value = "@app")
     public void afterScenario(){
 //        log.info("class: " + appHooks.class.getName());
 //        log.info("after --> scenario: " + this.scenario.getName());
@@ -39,7 +39,7 @@ public class appHooks {
         uiAutoHelper.reset();
     }
 
-    @After(order = 10001)
+    @After(order = 10001, value = "@app")
     public void takeScreenshot(){
         Status state = cucumberHelper.getScenario().getStatus();
         try {
@@ -52,7 +52,7 @@ public class appHooks {
         }
     }
 
-    @After(order = 10000)
+    @After(order = 10000, value = "@app")
     public void getPageSource(){
         if(uiAutoHelper.getDriver() instanceof IOSDriver) {
             this.pageSource = uiAutoHelper.getDriver().getPageSource().replace("<", "*");
@@ -61,7 +61,7 @@ public class appHooks {
         }
     }
 
-    @After(order = 2)
+    @After(order = 2, value = "@app")
     public void assertPageSource(){
         if(cucumberHelper.getScenario().isFailed()
                 && !(cucumberHelper.getException() instanceof JavAutoException)){

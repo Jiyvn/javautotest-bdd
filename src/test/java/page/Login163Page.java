@@ -39,8 +39,8 @@ public class Login163Page extends Browser{
 
     public void switchToLoginFrame(){
         ElementAction.switchToFrame(driver, loginFrame);
-        new WebDriverWait(driver, 20).until(
-                ExpectedConditions.frameToBeAvailableAndSwitchToIt(loginFrame));
+//        new WebDriverWait(driver, Duration.ofSeconds(20)).until(
+//                ExpectedConditions.frameToBeAvailableAndSwitchToIt(loginFrame));
     }
 
     public void inputEmail(String email){

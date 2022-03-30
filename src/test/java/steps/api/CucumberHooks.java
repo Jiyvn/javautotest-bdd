@@ -15,7 +15,11 @@ public class CucumberHooks {
     public void beforeScenario(Scenario scenario) {
 //        log.info("class: " + CucumberHooks.class.getName());
         cucumberHelper.setScenario(scenario);
-        log.info("Feature in progress: \"" + scenario.getUri() + "\""); // feature file
+        log.info("feature: \"" + scenario.getUri() + "\""); // feature file
+        log.info("getName: \"" + scenario.getName() + "\""); // scenario
+        log.info("getId: \"" + scenario.getId() + "\"");
+        log.info("getLine: \"" + scenario.getLine() + "\""); // line number in feature file
+        log.info("getSourceTagNames: \"" + scenario.getSourceTagNames() + "\""); // tags
     }
 
     @After(order = 0)

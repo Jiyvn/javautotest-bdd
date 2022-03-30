@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import page.Login163Page;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 
@@ -25,7 +26,7 @@ public class Login163 extends ui {
 
     Login163Page page;
 
-    @Before("@163")
+    @Before("@163 and not @api")
     public void beforeScenario(Scenario scenario) throws Exception {
         String home = System.getenv("HOME") == null ? System.getenv("HOMEPATH") : System.getenv("HOME");
         System.setProperty("webdriver.chrome.driver", home + "/webdrivers/chromedriver");
@@ -37,7 +38,7 @@ public class Login163 extends ui {
         Browser browser = new Browser(caps);
         browser.setCaps(caps);
         browser.setBrowser(defaultBrowser).setOptions();
-        driver = browser.Remote();
+        driver = browser.remote();
         page = new Login163Page(driver);
 
         this.scenario = scenario;
@@ -74,6 +75,7 @@ public class Login163 extends ui {
 //        ).sendKeys(this.mail.substring(0, this.mail.length() - 8));
 //        driver.findElement(By.name("password")).click();
 //        driver.findElement(By.name("password")).sendKeys(this.password);
+        driver.switchTo().defaultContent();
         page.switchToLoginFrame();
         page.inputEmail(this.mail.substring(0, this.mail.length() - 8));
         page.inputPassword(this.password);
@@ -93,7 +95,7 @@ public class Login163 extends ui {
         assert 1==0;
         WebElement error;
         try {
-            error = new WebDriverWait(driver, 5L, 500L).until(
+            error = new WebDriverWait(driver, Duration.ofSeconds(5), Duration.ofMillis(500)).until(
                     ExpectedConditions.visibilityOfElementLocated(By.className("ferrorhead")));
         } catch (NoSuchElementException | TimeoutException e) {
             throw new AssertionError("error message not found");

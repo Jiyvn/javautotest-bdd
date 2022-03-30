@@ -11,18 +11,10 @@ import io.qameta.allure.Attachment;
 import lombok.extern.slf4j.Slf4j;
 import model.ui;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.safari.SafariOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 
@@ -50,7 +42,7 @@ public class Search extends ui {
 
         if (driver == null) {
             log.info("driver is null (not determined), initializing with default browser - "+defaultBrowser);
-            driver = page.setBrowser(defaultBrowser).setOptions().Remote();
+            driver = page.setBrowser(defaultBrowser).setOptions().remote();
             uiAutoHelper.setDriver(driver);
         }
         LogEntries logs = driver.manage().logs().get(LogType.BROWSER);
@@ -103,7 +95,7 @@ public class Search extends ui {
             driver = page
                     .setBrowser(browser.toLowerCase())
                     .setOptions()
-                    .Remote();
+                    .remote();
             uiAutoHelper.setDriver(driver);
         }
     }
