@@ -5,19 +5,10 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriverLogLevel;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Locatable;
-import org.openqa.selenium.remote.AbstractDriverOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.safari.SafariOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -109,7 +100,7 @@ public class Browser extends RemoteDevice {
         return this;
     }
 
-    public WebDriver Remote() throws ReflectiveOperationException, MalformedURLException {
+    public WebDriver remote() throws ReflectiveOperationException, MalformedURLException {
         String obj = String.format("org.openqa.selenium.%s.%sDriver",
                 browser.toLowerCase(),
                 browser.equals("ie")
@@ -142,7 +133,7 @@ public class Browser extends RemoteDevice {
         return this.driver;
     }
 
-    public Browser Open(String url) {
+    public Browser open(String url) {
         this.driver.get(url);
 //        Method func = this.driverCls.getDeclaredMethod("get", String.class);
 //        func.invoke(this.options, url);
@@ -163,7 +154,7 @@ public class Browser extends RemoteDevice {
         return this;
     }
 
-    public static boolean isVisibleInViewport(WebElement element) {
+    public static boolean isInViewport(WebElement element) {
         WebDriver driver = ((RemoteWebElement)element).getWrappedDriver();
         String js = "var elem = arguments[0],                 " +
                 "  box = elem.getBoundingClientRect(),    " +
