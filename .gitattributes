@@ -1,0 +1,2 @@
+.circleci merge=ours
+.circleci/ export-ignore
