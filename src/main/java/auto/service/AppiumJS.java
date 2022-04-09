@@ -1,4 +1,4 @@
-package auto;
+package auto.service;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -3,7 +3,7 @@ package helper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import auto.capturer;
+import auto.actions.Capturer;
 
 import java.util.Base64;
 
@@ -70,12 +70,12 @@ public class uiAutoHelper {
 
     // full screen capture
     public static void attachImage(String Name){
-        cucumberHelper.attach(new capturer().captureFullScreen(getDriver()), "image/png", Name);
+        cucumberHelper.attach(new Capturer().captureFullScreen(getDriver()), "image/png", Name);
     }
 
     // WebElement capture
     public static void attachImage(WebElement element, String Name){
-        cucumberHelper.attach(new capturer().takeScreenShot(element), "image/png", Name);
+        cucumberHelper.attach(new Capturer().takeScreenShot(element), "image/png", Name);
     }
 
     public static void attachVideo(byte[] data, String Name){

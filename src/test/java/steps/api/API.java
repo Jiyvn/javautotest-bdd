@@ -9,7 +9,7 @@ public class API extends api {
 
     String baseURI;
 
-    @Given("打开{word}")
+    @Given("api访问{word}")
     public void open(String url){
         baseURI = url;
         Response res = RestAssured.given()

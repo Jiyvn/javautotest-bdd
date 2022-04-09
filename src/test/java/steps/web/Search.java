@@ -1,25 +1,26 @@
 package steps.web;
 
-import auto.Browser;
-//import io.cucumber.java.*;
+import auto.client.Browser;
+import auto.exceptions.JavAutoException;
 import helper.cucumberHelper;
 import helper.uiAutoHelper;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
+import io.qameta.allure.Attachment;
+import lombok.extern.slf4j.Slf4j;
 import model.ui;
-import org.openqa.selenium.By;
+import org.openqa.selenium.*;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
 
-
+@Slf4j
 public class Search extends ui {
-    static Logger log = LoggerFactory.getLogger(Search.class);
+//    static Logger log = LoggerFactory.getLogger(Search.class);
 
     private String word;
 
@@ -29,20 +30,23 @@ public class Search extends ui {
         word = searchWord;
     }
 
-//    @Attachment(value = "Page screenshot", type = "image/png")
-//    public byte[] Attach(byte[] screenShot){
-//        return screenShot;
-//    }
+    // ineffective
+    @Attachment(value = "Allure Page screenshot", type = "image/png")
+    public byte[] saveScreenshot(byte[] screenShot) {
+        return screenShot;
+    }
 
     @When("打开百度，输入搜索词搜索")
     public void searchByBaidu() throws Exception {
         System.out.println(cucumberHelper.getScenario().getName() + "  When -- 打开百度，输入搜索词搜索");
 
         if (driver == null) {
-            log.info("driver is null");
-            driver = page.setBrowser(defaultBrowser).setOptions().Start();
+            log.info("driver is null (not determined), initializing with default browser - "+defaultBrowser);
+            driver = page.setBrowser(defaultBrowser).setOptions().remote();
             uiAutoHelper.setDriver(driver);
         }
+        LogEntries logs = driver.manage().logs().get(LogType.BROWSER);
+
         driver.get("https://www.baidu.com");
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 //        driver.findElement(By.id("kw")).sendKeys(word);
@@ -59,31 +63,48 @@ public class Search extends ui {
         System.out.println("And -- 浏览器:" + browser);
         if (!browser.toLowerCase().equals(defaultBrowser)) {
             DefaultBrowser = false;
-            switch (browser.toLowerCase()) {
-                case "chrome":
-                    //                System.setProperty("webdriver.chrome.driver", "/Users/zi/webdrivers/chromedriver/chromedriver");
-                    caps = DesiredCapabilities.chrome();
-                    break;
-                case "firefox":
-                    //                System.setProperty("webdriver.gecko.driver", "/Users/zi/webdrivers/geckodriver/geckodriver");
-                    caps = DesiredCapabilities.firefox();
-                    break;
-                case "safari":
-                    //                System.setProperty("webdriver.safari.driver", "/usr/bin/safaridriver/sss");
-                    caps = DesiredCapabilities.safari();
-                    break;
-                default:
-                    caps = new DesiredCapabilities();
-            }
+//            switch (browser.toLowerCase()) {
+//                case "chrome":
+//                    //                System.setProperty("webdriver.chrome.driver", "/Users/zi/webdrivers/chromedriver/chromedriver");
+////                    caps = DesiredCapabilities.chrome();
+//                    caps = new DesiredCapabilities(new ChromeOptions());
+////                    ChromeOptions chromeOptions = new ChromeOptions();
+//////                    ImmutableCapabilities capabilities = new ImmutableCapabilities("browserName", "chrome");                    ChromeOptions chromeOptions = new ChromeOptions();
+////                    chromeOptions.setCapability("browserVersion", "xx");
+////                    chromeOptions.setCapability("platformName", "MacOS");
+////                    WebDriver driver = new RemoteWebDriver(new URL("http://www.example.com--command-executor"), chromeOptions);
+//                    break;
+//                case "firefox":
+//                    //                System.setProperty("webdriver.gecko.driver", "/Users/zi/webdrivers/geckodriver/geckodriver");
+////                    caps = DesiredCapabilities.firefox();
+//                    FirefoxOptions options = new FirefoxOptions();
+//                    options.setCapability("acceptInsecureCerts", true);
+//                    caps = new DesiredCapabilities(options);
+//
+//                    break;
+//                case "safari":
+//                    //                System.setProperty("webdriver.safari.driver", "/usr/bin/safaridriver/sss");
+////                    caps = DesiredCapabilities.safari();
+//                    caps = new DesiredCapabilities(new SafariOptions());
+//                    break;
+//                default:
+//                    caps = new DesiredCapabilities();
+//            }
+            caps = new DesiredCapabilities();
             page = new Browser(caps);
-            driver = page.setBrowser(browser.toLowerCase()).setOptions().Start();
+            driver = page
+                    .setBrowser(browser.toLowerCase())
+                    .setOptions()
+                    .remote();
             uiAutoHelper.setDriver(driver);
         }
     }
 
     @And("打开www")
     public void openwww() {
-        assert 1 == 0;
+//        assert 1 == 0;
+        saveScreenshot(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
+        throw new JavAutoException();
     }
 
     @And("点击xxx")

@@ -14,13 +14,23 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <cucumber.version>7.2.3</cucumber.version>
-        <appium.client.version>7.6.0</appium.client.version>
         <testng.version>7.5</testng.version>
+        <cucumber.version>7.2.3</cucumber.version>
+<!--        <appium.client.version>7.6.0</appium.client.version>-->
+        <appium.client.version>8.0.0-beta2</appium.client.version>
+        <selenium.version>4.1.2</selenium.version>
+        <restassured.version>4.5.0</restassured.version>
+        <opencv.version>4.5.3-1.5.6</opencv.version>
+
+        <alluremaven.version>2.10.0</alluremaven.version>
         <allure.version>2.17.2</allure.version>
         <aspectj.version>1.9.7</aspectj.version>
 
         <threads>5</threads>
+<!--        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
+        <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>
+<!--        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>-->
+<!--        <suiteXmlFile>src/test/resources/mail163.xml</suiteXmlFile>-->
 <!--        <file>src/test/resources/default.xml</file>-->
     </properties>
     <build>
@@ -48,8 +58,8 @@
                         -Dcucumber.options="--plugin io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
                     </argLine>
                     <suiteXmlFiles>
-<!--                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>-->
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+<!--                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>-->
 <!--                        <suiteXmlFile>src/test/resources/mail163.xml</suiteXmlFile>-->
@@ -82,7 +92,7 @@
                 <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-maven -->
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.10.0</version>
+                <version>${alluremaven.version}</version>
                 <configuration>
                     <reportVersion>${allure.version}</reportVersion>
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
@@ -102,6 +112,83 @@
             <artifactId>java-client</artifactId>
             <version>${appium.client.version}</version>
         </dependency>
+        <!-- for appium-client >=8 -->
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+        </dependency>
+<!--        lead to duplicated report-->
+<!--        <dependency>-->
+<!--            <groupId>io.qameta.allure</groupId>-->
+<!--            <artifactId>allure-testng</artifactId>-->
+<!--            <version>2.13.9</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/io.cucumber/cucumber-core &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.cucumber</groupId>-->
+        <!--            <artifactId>cucumber-core</artifactId>-->
+        <!--            <version>${cucumber.version}</version>-->
+        <!--        </dependency>-->
+        <!-- for runner -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- for runner (listener) -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <!-- for dependency injection -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/io.qameta.allure/allure-maven &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.qameta.allure</groupId>-->
+<!--            <artifactId>allure-maven</artifactId>-->
+<!--            <version>2.10.0</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.openpnp/opencv &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.openpnp</groupId>-->
+<!--            <artifactId>opencv</artifactId>-->
+<!--            <version>4.5.1-2</version>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.bytedeco/opencv -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv</artifactId>
+            <version>${opencv.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restassured.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>2.7.0</version>
+        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -112,11 +199,6 @@
         <!--            <artifactId>easyexcel</artifactId>-->
         <!--            <version>2.2.8</version>-->
         <!--        </dependency>-->
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
@@ -130,7 +212,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.35</version>
+            <version>1.7.36</version>
         </dependency>
         <!-- "logback-classic" To avoid:
         SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
@@ -152,73 +234,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
-        </dependency>
-        <!--lead to duplicated report-->
-<!--        <dependency>-->
-<!--            <groupId>io.qameta.allure</groupId>-->
-<!--            <artifactId>allure-testng</artifactId>-->
-<!--            <version>2.13.9</version>-->
-<!--        </dependency>-->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
-        </dependency>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/io.cucumber/cucumber-core &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>io.cucumber</groupId>-->
-<!--            <artifactId>cucumber-core</artifactId>-->
-<!--            <version>${cucumber.version}</version>-->
-<!--        </dependency>-->
-        <!-- for runner -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-testng</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- for runner -->
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber7-jvm</artifactId>
-            <version>${allure.version}</version>
-        </dependency>
-
-        <!-- for dependency injection -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-picocontainer</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/io.qameta.allure/allure-maven &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>io.qameta.allure</groupId>-->
-<!--            <artifactId>allure-maven</artifactId>-->
-<!--            <version>2.10.0</version>-->
-<!--        </dependency>-->
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>2.7.0</version>
-        </dependency>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.openpnp/opencv &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.openpnp</groupId>-->
-<!--            <artifactId>opencv</artifactId>-->
-<!--            <version>4.5.1-2</version>-->
-<!--        </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.bytedeco/opencv -->
-        <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>opencv</artifactId>
-            <version>4.5.3-1.5.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>4.5.0</version>
         </dependency>
 
     </dependencies>

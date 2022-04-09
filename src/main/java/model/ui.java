@@ -1,6 +1,6 @@
 package model;
 
-import auto.Browser;
+import auto.client.Browser;
 import helper.cucumberHelper;
 import helper.uiAutoHelper;
 import io.cucumber.java.Scenario;

@@ -35,6 +35,8 @@ public class cucumberListener implements ConcurrentEventListener {
     public void setEventPublisher(EventPublisher publisher) {
         publisher.registerHandlerFor(TestStepStarted.class, this.stepStartedHandler);
         publisher.registerHandlerFor(TestStepFinished.class, this.stepFinishedHandler);
+        publisher.registerHandlerFor(TestCaseStarted.class, this.caseStartedHandler);
+        publisher.registerHandlerFor(TestCaseFinished.class, this.caseFinishedHandler);
     }
 
     public void handleStepStarted(TestStepStarted event){
@@ -49,6 +51,7 @@ public class cucumberListener implements ConcurrentEventListener {
 
     public void handleStepFinished(TestStepFinished event){
         if (event.getTestStep() instanceof PickleStepTestStep) {
+            // get step stopped at
             scenarioFinished.set(!event.getResult().getStatus().equals(Status.PASSED));
         }
     }
@@ -58,7 +61,9 @@ public class cucumberListener implements ConcurrentEventListener {
     }
 
     public void handleCaseFinished(TestCaseFinished event){
-
+        if(!event.getResult().getStatus().isOk()){
+            cucumberHelper.setException(event.getResult().getError());
+        }
     }
 
 }

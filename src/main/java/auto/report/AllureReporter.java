@@ -1,4 +1,4 @@
-package auto;
+package auto.report;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Report {
+public class AllureReporter {
     private static String os = System.getProperty("os.name");
     private static boolean seperateReport = false;
     private static boolean cleanReport = false;
     private static String ReportDir;
-    public static Logger log = LoggerFactory.getLogger(Report.class);
+    public static Logger log = LoggerFactory.getLogger(AllureReporter.class);
 
     public static void dumpReport() throws IOException {
         ReportDir = ReportDir != null

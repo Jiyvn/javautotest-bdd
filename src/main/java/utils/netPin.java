@@ -1,4 +1,4 @@
-package auto;
+package utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Talk {
-    public static Logger log = LoggerFactory.getLogger(Talk.class);
+public class netPin {
+    public static Logger log = LoggerFactory.getLogger(netPin.class);
     private static String os = System.getProperty("os.name");
 
     public static boolean portInUse(int port) {
@@ -52,8 +52,8 @@ public class Talk {
     }
 
     public static boolean isActive(String url) throws IOException {
-        URL server_url = new URL(url);
-        URLConnection conn = server_url.openConnection();
+        URL serverUrl = new URL(url);
+        URLConnection conn = serverUrl.openConnection();
 //        conn.setUseCaches(false);
         conn.setConnectTimeout(5000);
         Map<String, List<String>> headers = conn.getHeaderFields();

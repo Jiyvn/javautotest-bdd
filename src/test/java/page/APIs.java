@@ -1,26 +1,26 @@
-package utils;
+package page;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 
 // <T extends APIUtil<T>>: to avoid upcasting on chaining
-public class apiUtil<T extends apiUtil<T>>{
-    @SuppressWarnings("unchecked")
-    private final T This = (T)this;
+public class APIs<T extends APIs<T>>{
+//    @SuppressWarnings("unchecked")
+//    private final T This = (T)this;
     protected String baseURI = "<url_domain>";
     public Response response;
     protected String token;
 
-    public apiUtil(){}
+    public APIs(){}
 
-    public apiUtil(String baseURI){
+    public APIs(String baseURI){
         this.baseURI = baseURI;
     }
 
     public T setToken(String token){
         this.token = token;
-        return This;
+        return (T) this;
     }
 
     public String getToken(){
@@ -33,7 +33,7 @@ public class apiUtil<T extends apiUtil<T>>{
                 .header("header1", "hh")
                 .formParam("formparam1", "ff")
                 .post();
-        return This;
+        return (T) this;
 
     }
 
@@ -44,7 +44,7 @@ public class apiUtil<T extends apiUtil<T>>{
                 .formParam("email", email)
                 .formParam("password", password)
                 .post(url);
-        return This;
+        return (T) this;
     }
 
     public T signup(String email, String password){
@@ -54,7 +54,7 @@ public class apiUtil<T extends apiUtil<T>>{
                 .formParam("email", email)
                 .formParam("password", password)
                 .post(url);
-        return This;
+        return (T) this;
     }
 
 }

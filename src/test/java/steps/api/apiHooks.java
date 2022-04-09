@@ -11,7 +11,7 @@ public class apiHooks {
     protected Scenario scenario;
     public static Logger log = LoggerFactory.getLogger(apiHooks.class);
 
-    @Before(order = 1)
+    @Before(order = 1, value = "@api")
     public void beforeScenario(){
 //        log.info("class: " + apiHooks.class.getName());
         this.scenario = cucumberHelper.getScenario();
@@ -19,7 +19,7 @@ public class apiHooks {
 
     }
 
-    @After(order = 1)
+    @After(order = 1, value = "@api")
     public void afterScenario(){
 //        log.info("class: " + apiHooks.class.getName());
 //        log.info("after --> scenario: " + this.scenario.getName());

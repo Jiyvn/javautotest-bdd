@@ -1,0 +1,82 @@
+<configuration>
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss.sss"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+<!--            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] %logger{36} [%file:%line]- %msg%n</pattern>-->
+            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%file:%line]- %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--            <level>info</level>-->
+<!--        </filter>-->
+        <filter class="listener.ThreadFuzzyFilter">
+            <threadName>main,AsyncHttpClient</threadName>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+
+
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%logger{36}] [%file:%line]- %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>log/output.%d{yyyyMMdd}.log</fileNamePattern>
+            <!-- keep 10 days' worth of history capped at 200MB total size -->
+            <maxHistory>10</maxHistory>
+            <maxFileSize>200M</maxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--            <level>debug</level>-->
+<!--        </filter>-->
+        <append>true</append>
+    </appender>
+    <appender name="FILE_THREAD" class="ch.qos.logback.core.FileAppender">
+        <encoder>
+            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%logger{36}] [%file:%line]- %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder><!-- use the previously created timestamp to create a uniquely
+             named log file -->
+        <file>log/output.all.${bySecond}.log</file>
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>debug</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
+        <append>true</append>
+    </appender>
+    <appender name="FILE_TESTNG" class="ch.qos.logback.core.FileAppender">
+        <encoder>
+            <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%logger{36}] [%file:%line]- %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder><!-- use the previously created timestamp to create a uniquely
+             named log file -->
+        <file>log/output.testng.${bySecond}.log</file>
+<!--        <append>true</append>-->
+    </appender>
+
+    <logger name="org.testng" level="debug" activity="false">
+        <appender-ref ref="FILE_TESTNG" />
+    </logger>
+
+    <logger name="io.netty" level="debug" activity="false">
+        <appender-ref ref="FILE_TESTNG" />
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE_THREAD" />
+    </root>
+
+</configuration>
