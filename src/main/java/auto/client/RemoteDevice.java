@@ -8,30 +8,34 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class RemoteDevice {
 
     public WebDriver driver;
     public DesiredCapabilities desiredCaps = new DesiredCapabilities();
+//    public static Logger log = LoggerFactory.getLogger(Browser.class);
 
     public RemoteDevice() {
 
@@ -119,7 +123,79 @@ public class RemoteDevice {
         }
         return true;
     }
+
     public void waitUntilElementPresent(WebElement element, int timeout){
+        // format: this.foundBy = String.format("[%s] -> %s: %s", foundFrom, locator, term);
+        // see RemoteWebElement setFoundBy()
+        String[] data =element.toString().split(" -> ")[1].replace("]", "").split(": ");
+        String locatorType = data[0];
+        String identity = data[1];
+        By locator = getLocator(locatorType, identity);
+        new WebDriverWait(this.driver, Duration.ofSeconds(timeout))
+                .until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    public boolean isElementPresent(WebElement element) {
+        this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+        boolean present=false;
+        try {
+            element.getText();
+            present = true;
+        }catch (NoSuchElementException|StaleElementReferenceException e){
+            log.trace(e.getMessage());
+        }finally {
+            this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        }
+        return present;
+    }
+
+    public boolean isElementAbsent(WebElement element) {
+        this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+        boolean absent=false;
+        try {
+            element.isDisplayed();
+        }catch (NoSuchElementException|StaleElementReferenceException e){
+            log.trace(e.getMessage());
+            absent=true;
+        }finally {
+            this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        }
+        return absent;
+    }
+
+    // for native+webview (page direction between different contexts)
+    public void waitUntilElementAbsent(WebElement element, int timeout) {
+        long formerTime = Calendar.getInstance().getTimeInMillis()/1000;
+        boolean absent=false;
+        long latterTime = Calendar.getInstance().getTimeInMillis()/1000;
+//			log.trace("latter time: "+latterTime);
+        while ((latterTime - formerTime)<timeout && !absent) {
+            absent = isElementAbsent(element);
+            try {
+                Thread.sleep(2000);
+            }catch (InterruptedException ignored){}
+            latterTime = Calendar.getInstance().getTimeInMillis()/1000;
+//				log.trace("latter time: "+latterTime);
+        }
+    }
+
+    // must present
+    public void waitForElementToBeInvisible(WebElement element, int timeout) {
+        new WebDriverWait(this.driver, Duration.ofSeconds(timeout))
+                .until(ExpectedConditions.not(ExpectedConditions.visibilityOf(element)));
+    }
+    // must present
+    public void waitForElementToBeVisible(WebElement element, int timeout) {
+        new WebDriverWait(this.driver, Duration.ofSeconds(timeout))
+                .until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void waitForElementToBeAbsent(By by, int timeout) {
+        new WebDriverWait(this.driver, Duration.ofSeconds(timeout))
+                .until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    public void waitForElementToBeAbsent(WebElement element, int timeout) {
         // format: this.foundBy = String.format("[%s] -> %s: %s", foundFrom, locator, term);
         // see RemoteWebElement setFoundBy()
         String[] data =element.toString().split(" -> ")[1].replace("]", "").split(": ");
