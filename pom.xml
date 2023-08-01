@@ -8,25 +8,40 @@
     <artifactId>javautotest-bdd</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
+        <!--project setting-->
+        <jdk.version>17</jdk.version>
         <Encoding>UTF-8</Encoding>
         <plugin.surefire.version>2.20</plugin.surefire.version>
         <plugin.compiler.version>3.8.1</plugin.compiler.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <slf4j.version>2.0.7</slf4j.version>
+        <logback.classic.version>1.4.8</logback.classic.version>
+        <lombok.version>1.18.26</lombok.version>
 
+        <!--project libraries-->
         <testng.version>7.5</testng.version>
         <cucumber.version>7.2.3</cucumber.version>
-<!--        <appium.client.version>7.6.0</appium.client.version>-->
-        <appium.client.version>8.0.0-beta2</appium.client.version>
-        <selenium.version>4.1.2</selenium.version>
-        <restassured.version>4.5.0</restassured.version>
         <opencv.version>4.5.3-1.5.6</opencv.version>
+        <fastjson.version>2.0.38</fastjson.version>
+        <snakeyml.version>2.0</snakeyml.version>
+        <commons.io.version>2.13.0</commons.io.version>
 
-        <alluremaven.version>2.10.0</alluremaven.version>
+        <!--        <appium.client.version>7.6.0</appium.client.version>-->
+        <appium.version>8.5.1</appium.version>
+        <selenium.version>4.10.0</selenium.version>
+
+        <restassured.version>5.3.1</restassured.version>
+        <jsonpath.version>2.8.0</jsonpath.version>
+        <json.schema.validator.version>5.3.1</json.schema.validator.version>
+
+        <alluremaven.version>2.12.0</alluremaven.version>
         <allure.version>2.17.2</allure.version>
-        <aspectj.version>1.9.7</aspectj.version>
+        <aspectj.version>1.9.19</aspectj.version>
 
-        <threads>5</threads>
+        <!--test config-->
+        <data.threads>5</data.threads>
+        <suite.threads>5</suite.threads>
 <!--        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
         <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>
 <!--        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>-->
@@ -41,8 +56,8 @@
                 <version>${plugin.compiler.version}</version>
                 <configuration>
                     <encoding>${Encoding}</encoding>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -71,14 +86,14 @@
 <!--                    <systemPropertyVariables>-->
 <!--                        <propertyName>firefox</propertyName>-->
 <!--                    </systemPropertyVariables>-->
-<!--                    <properties>-->
-<!--                        <property>-->
-<!--                            <name>dataproviderthreadcount</name>-->
-<!--                            <value>20</value>-->
-<!--                            <name>suitethreadpoolsize</name>-->
-<!--                            <value>${threads}</value>-->
-<!--                        </property>-->
-<!--                    </properties>-->
+                    <properties>
+                        <property>
+                            <name>dataproviderthreadcount</name>
+                            <value>${data.threads}</value>
+                            <name>suitethreadpoolsize</name>
+                            <value>${suite.threads}</value>
+                        </property>
+                    </properties>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -110,7 +125,7 @@
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>${appium.client.version}</version>
+            <version>${appium.version}</version>
         </dependency>
         <!-- for appium-client >=8 -->
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
@@ -148,18 +163,18 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- for runner (listener) -->
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber7-jvm</artifactId>
-            <version>${allure.version}</version>
-        </dependency>
         <!-- for dependency injection -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
+        </dependency>
+        <!-- for runner (listener) -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure.version}</version>
         </dependency>
 <!--        &lt;!&ndash; https://mvnrepository.com/artifact/io.qameta.allure/allure-maven &ndash;&gt;-->
 <!--        <dependency>-->
@@ -187,12 +202,28 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>2.7.0</version>
+            <version>${jsonpath.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.79</version>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${json.schema.validator.version}</version>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.networknt</groupId>-->
+        <!--            <artifactId>json-schema-validator</artifactId>-->
+        <!--            <version>1.0.86</version>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>org.apache.commons</groupId>-->
+        <!--                    <artifactId>commons-lang3</artifactId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
         <!--        <dependency>-->
         <!--            <groupId>com.alibaba</groupId>-->
@@ -202,17 +233,17 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.29</version>
+            <version>${snakeyml.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>${lombok.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.36</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <!-- "logback-classic" To avoid:
         SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
@@ -222,7 +253,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.10</version>
+            <version>${logback.classic.version}</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>junit</groupId>-->
@@ -233,7 +264,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
+            <version>${commons.io.version}</version>
         </dependency>
 
     </dependencies>

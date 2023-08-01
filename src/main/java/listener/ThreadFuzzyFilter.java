@@ -7,6 +7,7 @@ import ch.qos.logback.core.spi.FilterReply;
 public class ThreadFuzzyFilter extends AbstractMatcherFilter<ILoggingEvent> {
     private String[] threadName;
 
+    @Override
     public FilterReply decide(ILoggingEvent event) {
         if (!this.isStarted()) {
             return FilterReply.NEUTRAL;
@@ -24,6 +25,7 @@ public class ThreadFuzzyFilter extends AbstractMatcherFilter<ILoggingEvent> {
         this.threadName = threadName.split(",");
     }
 
+    @Override
     public void start() {
         if (this.threadName != null) {
             super.start();
