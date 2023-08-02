@@ -2,9 +2,13 @@ package utils;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.QueryableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.SpecificationQuerier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static io.restassured.RestAssured.given;
 
 public class RequestUtil {
 
@@ -55,6 +59,16 @@ public class RequestUtil {
         return this;
     }
 
+    public RequestUtil addQueryParam(String key, Object value){
+        this.requestSpec.queryParam(key, value);
+        return this;
+    }
+
+    public RequestUtil addFormParam(String key, Object value){
+        this.requestSpec.formParam(key, value);
+        return this;
+    }
+
     public RequestUtil setMethod(String method){
         this.method = method;
         return this;
@@ -70,6 +84,8 @@ public class RequestUtil {
             case "put" -> this.response = this.requestSpec.put(this.url);
             case "head" -> this.response = this.requestSpec.head(this.url);
         }
+        outputRequestDetails();
+        outputResponseDetails();
         return this.response;
     }
 
@@ -81,5 +97,29 @@ public class RequestUtil {
         return this.endpiont;
     }
 
+    public RequestSpecification getRequestSpec(){
+        return this.requestSpec;
+    }
 
+    public void outputRequestDetails(){
+        QueryableRequestSpecification query = SpecificationQuerier.query(this.requestSpec);
+        log.info(
+                "request headers: \n"+ query.getHeaders()
+                        +"\n\n"+"request params: \n"+ query.getRequestParams()
+                        +"\n\n"+"request queryParams: \n"+ query.getQueryParams()
+                        +"\n\n"+"request formParams: \n"+ query.getFormParams()
+                        +"\n\n"+"request body: \n"+ query.getBody()
+        );
+    }
+    public void outputResponseDetails(){
+        log.info(
+                "response header: \n"+ this.response.getHeaders()
+                        +"\n\n"+"response body: \n"+this.response.asPrettyString()
+        );
+    }
+
+    public RequestUtil clearSpec(){
+        this.requestSpec = given();
+        return this;
+    }
 }
