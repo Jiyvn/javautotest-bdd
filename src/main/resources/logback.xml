@@ -14,7 +14,7 @@
 <!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
 <!--            <level>info</level>-->
 <!--        </filter>-->
-        <filter class="listener.ThreadFuzzyFilter">
+        <filter class="filters.ThreadFuzzyFilter">
             <threadName>main,AsyncHttpClient</threadName>
             <onMatch>DENY</onMatch>
             <onMismatch>ACCEPT</onMismatch>
