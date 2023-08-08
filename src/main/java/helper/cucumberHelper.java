@@ -27,6 +27,7 @@ public class cucumberHelper {
 
     // get step
     public static InheritableThreadLocal<PickleStepTestStep> step = new InheritableThreadLocal<PickleStepTestStep>() {
+        @Override
         protected synchronized PickleStepTestStep initialValue() {
             return null;
         }

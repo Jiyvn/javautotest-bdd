@@ -26,13 +26,19 @@
             <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%logger{36}] [%file:%line]- %msg%n</pattern>
             <charset>utf-8</charset>
         </encoder>
+        <file>${log.path}/log-${mdc{threadId}}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
-            <fileNamePattern>log/output.%d{yyyyMMdd}.log</fileNamePattern>
-            <!-- keep 10 days' worth of history capped at 200MB total size -->
+            <fileNamePattern>${log.path}/log-%d{yyyy-MM-dd}-${mdc{threadId}}.log</fileNamePattern>
             <maxHistory>10</maxHistory>
             <maxFileSize>200M</maxFileSize>
         </rollingPolicy>
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            &lt;!&ndash; daily rollover &ndash;&gt;-->
+<!--            <fileNamePattern>log/output.%d{yyyyMMdd}.log</fileNamePattern>-->
+<!--            &lt;!&ndash; keep 10 days' worth of history capped at 200MB total size &ndash;&gt;-->
+<!--            <maxHistory>10</maxHistory>-->
+<!--            <maxFileSize>200M</maxFileSize>-->
+<!--        </rollingPolicy>-->
 <!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
 <!--            <level>debug</level>-->
 <!--            <onMatch>ACCEPT</onMatch>-->
