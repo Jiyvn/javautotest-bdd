@@ -1,5 +1,7 @@
 <configuration>
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss.sss"/>
+    <!--disable logback internal message-->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type
@@ -12,34 +14,39 @@
 <!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
 <!--            <level>info</level>-->
 <!--        </filter>-->
-        <filter class="listener.ThreadFuzzyFilter">
+        <filter class="filters.ThreadFuzzyFilter">
             <threadName>main,AsyncHttpClient</threadName>
             <onMatch>DENY</onMatch>
             <onMismatch>ACCEPT</onMismatch>
         </filter>
-
-
     </appender>
+
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
             <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%logger{36}] [%file:%line]- %msg%n</pattern>
             <charset>utf-8</charset>
         </encoder>
+        <file>${log.path}/log-${mdc{threadId}}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
-            <fileNamePattern>log/output.%d{yyyyMMdd}.log</fileNamePattern>
-            <!-- keep 10 days' worth of history capped at 200MB total size -->
+            <fileNamePattern>${log.path}/log-%d{yyyy-MM-dd}-${mdc{threadId}}.log</fileNamePattern>
             <maxHistory>10</maxHistory>
             <maxFileSize>200M</maxFileSize>
         </rollingPolicy>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>debug</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            &lt;!&ndash; daily rollover &ndash;&gt;-->
+<!--            <fileNamePattern>log/output.%d{yyyyMMdd}.log</fileNamePattern>-->
+<!--            &lt;!&ndash; keep 10 days' worth of history capped at 200MB total size &ndash;&gt;-->
+<!--            <maxHistory>10</maxHistory>-->
+<!--            <maxFileSize>200M</maxFileSize>-->
+<!--        </rollingPolicy>-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
 <!--            <level>debug</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
 <!--        </filter>-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
         <append>true</append>
     </appender>
     <appender name="FILE_THREAD" class="ch.qos.logback.core.FileAppender">
@@ -69,12 +76,21 @@
     <logger name="org.testng" level="debug" activity="false">
         <appender-ref ref="FILE_TESTNG" />
     </logger>
+    <!--only show >=warning message in CONSOLE-->
+    <logger name="org.testng.internal.Utils" level="WARN">
+        <appender-ref ref="CONSOLE" />
+    </logger>
 
     <logger name="io.netty" level="debug" activity="false">
         <appender-ref ref="FILE_TESTNG" />
     </logger>
 
-    <root level="debug">
+    <logger name="curl" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <!--set global log level and log destination/receiver-->
+    <root level="trace">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE_THREAD" />
     </root>

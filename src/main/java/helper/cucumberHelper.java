@@ -10,6 +10,7 @@ public class cucumberHelper {
      */
     // get scenario
     public static final InheritableThreadLocal<Scenario> scenario = new InheritableThreadLocal<Scenario>() {
+        @Override
         protected synchronized Scenario initialValue() {
             return null;
         }
@@ -26,6 +27,7 @@ public class cucumberHelper {
 
     // get step
     public static InheritableThreadLocal<PickleStepTestStep> step = new InheritableThreadLocal<PickleStepTestStep>() {
+        @Override
         protected synchronized PickleStepTestStep initialValue() {
             return null;
         }
@@ -53,6 +55,7 @@ public class cucumberHelper {
 
     // get exception
     public static InheritableThreadLocal<Throwable> error = new InheritableThreadLocal<Throwable>() {
+        @Override
         protected synchronized Throwable initialValue() {
             return null;
         }

@@ -13,6 +13,7 @@ public class uiAutoHelper {
      * driver
      */
     public static InheritableThreadLocal<WebDriver> driver = new InheritableThreadLocal<WebDriver>() {
+        @Override
         protected synchronized WebDriver initialValue() {
             return null;
         }
@@ -27,6 +28,7 @@ public class uiAutoHelper {
     }
 
     public static InheritableThreadLocal<String> browser = new InheritableThreadLocal<String>() {
+        @Override
         protected synchronized String initialValue() {
             return null;
         }
@@ -44,6 +46,7 @@ public class uiAutoHelper {
      * desiredCaps
      */
     public static InheritableThreadLocal<DesiredCapabilities> desiredCaps = new InheritableThreadLocal<DesiredCapabilities>() {
+        @Override
         protected synchronized DesiredCapabilities initialValue() {
             return null;
         }
