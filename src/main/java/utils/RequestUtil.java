@@ -1,6 +1,8 @@
 package utils;
 
+import com.github.dzieciou.testing.curl.CurlRestAssuredConfigFactory;
 import io.restassured.RestAssured;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.response.Response;
 import io.restassured.specification.QueryableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
@@ -13,7 +15,8 @@ import static io.restassured.RestAssured.given;
 public class RequestUtil {
 
     private static final Logger log = LoggerFactory.getLogger(RequestUtil.class);
-    public RequestSpecification requestSpec = RestAssured.given();
+    RestAssuredConfig config = CurlRestAssuredConfigFactory.createConfig();
+    public RequestSpecification requestSpec = RestAssured.given().config(config);
 
     protected String baseUri;
     protected String endpiont;

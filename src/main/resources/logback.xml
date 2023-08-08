@@ -85,6 +85,10 @@
         <appender-ref ref="FILE_TESTNG" />
     </logger>
 
+    <logger name="curl" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
     <!--set global log level and log destination/receiver-->
     <root level="trace">
         <appender-ref ref="CONSOLE" />
