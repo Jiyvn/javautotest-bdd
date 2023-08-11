@@ -211,6 +211,17 @@
             <artifactId>json-schema-validator</artifactId>
             <version>${json.schema.validator.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.dzieciou.testing</groupId>
+            <artifactId>curl-logger</artifactId>
+            <version>${ra.curl.logger.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!--        <dependency>-->
         <!--            <groupId>com.networknt</groupId>-->
         <!--            <artifactId>json-schema-validator</artifactId>-->
@@ -267,11 +278,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.dzieciou.testing</groupId>
-            <artifactId>curl-logger</artifactId>
-            <version>${ra.curl.logger.version}</version>
         </dependency>
 
     </dependencies>

@@ -1,6 +1,8 @@
 package utils;
 
 import com.github.dzieciou.testing.curl.CurlRestAssuredConfigFactory;
+import com.github.dzieciou.testing.curl.Options;
+import com.github.dzieciou.testing.curl.Platform;
 import io.restassured.RestAssured;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.response.Response;
@@ -9,13 +11,29 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 import static io.restassured.RestAssured.given;
 
 public class RequestUtil {
 
     private static final Logger log = LoggerFactory.getLogger(RequestUtil.class);
-    RestAssuredConfig config = CurlRestAssuredConfigFactory.createConfig();
+    RestAssuredConfig config = CurlRestAssuredConfigFactory.createConfig(
+            Options.builder()
+                    .targetPlatform(Platform.UNIX)
+                    .useLogLevel(Level.INFO)
+                    .updateCurl(curl -> curl
+                            .removeHeader("Host")
+                            .removeHeader("User-Agent")
+                            .removeHeader("Connection")
+                            .removeHeader("Accept")
+                            .removeHeader("Content-Length")
+                            .setVerbose(false)
+                            .setInsecure(false)
+                            .setCompressed(false)
+                    )
+                    .build()
+    );
     public RequestSpecification requestSpec = RestAssured.given().config(config);
 
     protected String baseUri;
@@ -122,7 +140,7 @@ public class RequestUtil {
     }
 
     public RequestUtil clearSpec(){
-        this.requestSpec = given();
+        this.requestSpec = given().config(config);
         return this;
     }
 }

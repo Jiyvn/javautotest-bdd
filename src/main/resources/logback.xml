@@ -11,14 +11,14 @@
             <pattern>[%level] %d{HH:mm:ss.SSS} [%thread] [%file:%line]- %msg%n</pattern>
             <charset>utf-8</charset>
         </encoder>
-<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
-<!--            <level>info</level>-->
-<!--        </filter>-->
-        <filter class="filters.ThreadFuzzyFilter">
-            <threadName>main,AsyncHttpClient</threadName>
-            <onMatch>DENY</onMatch>
-            <onMismatch>ACCEPT</onMismatch>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
         </filter>
+<!--        <filter class="filters.ThreadFuzzyFilter">-->
+<!--            <threadName>main,AsyncHttpClient</threadName>-->
+<!--            <onMatch>DENY</onMatch>-->
+<!--            <onMismatch>ACCEPT</onMismatch>-->
+<!--        </filter>-->
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -85,9 +85,9 @@
         <appender-ref ref="FILE_TESTNG" />
     </logger>
 
-    <logger name="curl" level="DEBUG">
-        <appender-ref ref="STDOUT"/>
-    </logger>
+<!--    <logger name="curl" level="DEBUG">-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--    </logger>-->
 
     <!--set global log level and log destination/receiver-->
     <root level="trace">
