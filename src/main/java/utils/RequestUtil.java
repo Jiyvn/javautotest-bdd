@@ -3,6 +3,7 @@ package utils;
 import com.github.dzieciou.testing.curl.CurlRestAssuredConfigFactory;
 import com.github.dzieciou.testing.curl.Options;
 import com.github.dzieciou.testing.curl.Platform;
+//import filters.CurlFilter;
 import io.restassured.RestAssured;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.response.Response;
@@ -34,6 +35,7 @@ public class RequestUtil {
                     )
                     .build()
     );
+//    public RequestSpecification requestSpec = RestAssured.given().filter(new CurlFilter());
     public RequestSpecification requestSpec = RestAssured.given().config(config);
 
     protected String baseUri;
