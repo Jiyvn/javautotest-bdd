@@ -1,6 +1,11 @@
 package helper;
 
+import com.github.dzieciou.testing.curl.CurlRestAssuredConfigFactory;
+import com.github.dzieciou.testing.curl.Options;
+import com.github.dzieciou.testing.curl.Platform;
 import io.cucumber.java.Scenario;
+import io.restassured.config.RestAssuredConfig;
+import org.slf4j.event.Level;
 import utils.RequestUtil;
 
 public final class apiAutoHelper {
@@ -47,6 +52,22 @@ public final class apiAutoHelper {
     public static void resetScenario(){
         scenario.remove();
     }
+
+    public static RestAssuredConfig curlRestConf = CurlRestAssuredConfigFactory.createConfig(
+            Options.builder()
+                    .targetPlatform(Platform.UNIX)
+                    .useLogLevel(Level.INFO)
+                    .updateCurl(curl -> curl
+                            .removeHeader("Host")
+                            .removeHeader("User-Agent")
+                            .removeHeader("Connection")
+                            .removeHeader("Accept")
+                            .removeHeader("Content-Length")
+                            .setVerbose(false)
+                            .setInsecure(false)
+                            .setCompressed(false)
+                    ).build()
+    );;
 
 
 }

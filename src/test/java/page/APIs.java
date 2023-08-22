@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 public class APIs<T extends APIs<T>>{
 //    @SuppressWarnings("unchecked")
 //    private final T This = (T)this;
-    protected String baseURI = "<url_domain>";
+    public String baseURI = "<url_domain>";
     public Response response;
     protected String token;
 
