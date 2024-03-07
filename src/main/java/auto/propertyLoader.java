@@ -21,7 +21,7 @@ public class propertyLoader {
         System.setProperty("webdriver.firefox.bin", "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox");
         System.setProperty("webdriver.gecko.driver", home + "/webdrivers/geckodriver");
 //        System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
-        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"log/firefox.log");
+//        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_PROFILE,"log/firefox.log");
 //        org.testng.log4testng.Logger
     }
 }
