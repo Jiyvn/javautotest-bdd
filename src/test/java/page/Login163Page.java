@@ -27,6 +27,7 @@ public class Login163Page extends Browser{
     protected By loginFrame = By.xpath("(//iframe)[1]");
 
     public Login163Page(){
+        // for app: AppiumFieldDecorator
         PageFactory.initElements(new DefaultElementLocatorFactory(this.driver), this);
 //        PageFactory.initElements(new AjaxElementLocatorFactory(this.driver, 20), this);
     }
@@ -63,6 +64,16 @@ public class Login163Page extends Browser{
         inputEmail(email);
         inputPassword(password);
         clickLoginButton();
+//        String src = driver.getPageSource();
+//        log.info("page src: \n"+src);
+//
+//        String filePath = "./appletvhome.xml"; // 文件路径
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+//            writer.write(src); // 将字符串写入文件
+//            log.info("file saved: "+filePath);
+//        } catch (IOException e) {
+//            log.warn("error while writing file：" + e.getMessage());
+//        }
     }
 
 }
