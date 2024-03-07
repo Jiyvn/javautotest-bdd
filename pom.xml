@@ -11,25 +11,26 @@
         <!--project setting-->
         <jdk.version>17</jdk.version>
         <Encoding>UTF-8</Encoding>
-        <plugin.surefire.version>2.20</plugin.surefire.version>
-        <plugin.compiler.version>3.8.1</plugin.compiler.version>
+        <plugin.surefire.version>3.1.2</plugin.surefire.version>
+        <plugin.compiler.version>3.11.0</plugin.compiler.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <slf4j.version>2.0.7</slf4j.version>
-        <logback.classic.version>1.4.8</logback.classic.version>
-        <lombok.version>1.18.26</lombok.version>
+        <slf4j.version>2.0.12</slf4j.version>
+        <logback.classic.version>1.5.3</logback.classic.version>
+        <lombok.version>1.18.30</lombok.version>
 
         <!--project libraries-->
-        <testng.version>7.5</testng.version>
-        <cucumber.version>7.2.3</cucumber.version>
+        <junit.version>5.10.1</junit.version>
+        <junit.suite.version>1.10.1</junit.suite.version>
+        <cucumber.version>7.15.0</cucumber.version>
         <opencv.version>4.5.3-1.5.6</opencv.version>
         <fastjson.version>2.0.38</fastjson.version>
         <snakeyml.version>2.0</snakeyml.version>
         <commons.io.version>2.13.0</commons.io.version>
 
         <!--        <appium.client.version>7.6.0</appium.client.version>-->
-        <appium.version>8.5.1</appium.version>
-        <selenium.version>4.10.0</selenium.version>
+        <appium.version>9.1.0</appium.version>
+        <selenium.version>4.18.1</selenium.version>
 
         <restassured.version>5.3.1</restassured.version>
         <ra.curl.logger.version>3.0.0</ra.curl.logger.version>
@@ -37,17 +38,13 @@
         <json.schema.validator.version>5.3.1</json.schema.validator.version>
 
         <alluremaven.version>2.12.0</alluremaven.version>
-        <allure.version>2.17.2</allure.version>
+        <allure.version>2.25.0</allure.version>
         <aspectj.version>1.9.19</aspectj.version>
 
         <!--test config-->
         <data.threads>5</data.threads>
         <suite.threads>5</suite.threads>
-<!--        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
-        <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>
-<!--        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>-->
-<!--        <suiteXmlFile>src/test/resources/mail163.xml</suiteXmlFile>-->
-<!--        <file>src/test/resources/default.xml</file>-->
+
     </properties>
     <build>
         <plugins>
@@ -73,27 +70,14 @@
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                         -Dcucumber.options="--plugin io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
                     </argLine>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-<!--                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
-<!--                        <suiteXmlFile>src/test/resources/search.xml</suiteXmlFile>-->
-<!--                        <suiteXmlFile>src/test/resources/testngsuite.xml</suiteXmlFile>-->
-<!--                        <suiteXmlFile>src/test/resources/mail163.xml</suiteXmlFile>-->
-                    </suiteXmlFiles>
-<!--                    <includes>-->
-<!--                        <include>**/CucumberSearchRunner.java</include>-->
-<!--                        <include>**/CucumberMailRunner.java</include>-->
-<!--                    </includes>-->
 <!--                    <systemPropertyVariables>-->
 <!--                        <propertyName>firefox</propertyName>-->
 <!--                    </systemPropertyVariables>-->
                     <properties>
-                        <property>
-                            <name>dataproviderthreadcount</name>
-                            <value>${data.threads}</value>
-                            <name>suitethreadpoolsize</name>
-                            <value>${suite.threads}</value>
-                        </property>
+                        <configurationParameters>
+                            cucumber.junit-platform.naming-strategy=long
+                            junit.jupiter.extensions.autodetection.enabled = true
+                        </configurationParameters>
                     </properties>
                 </configuration>
                 <dependencies>
@@ -121,7 +105,36 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+<!--        <repository>-->
+<!--            <id>central</id>-->
+<!--            <url>https://repo.maven.apache.org/maven2</url>-->
+<!--        </repository>-->
     </repositories>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-bom</artifactId>
+                <version>${allure.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-bom</artifactId>
+                <version>${cucumber.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>io.appium</groupId>
@@ -135,17 +148,30 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-        </dependency>
-<!--        lead to duplicated report-->
 <!--        <dependency>-->
-<!--            <groupId>io.qameta.allure</groupId>-->
-<!--            <artifactId>allure-testng</artifactId>-->
-<!--            <version>2.13.9</version>-->
+<!--            <groupId>org.junit</groupId>-->
+<!--            <artifactId>junit-bom</artifactId>-->
+<!--            <version>${junit.version}</version>-->
+<!--            <type>pom</type>-->
+<!--            <scope>import</scope>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
@@ -159,9 +185,15 @@
         <!--        </dependency>-->
         <!-- for runner -->
         <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-testng</artifactId>
-            <version>${cucumber.version}</version>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>${junit.suite.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite-engine</artifactId>
+            <version>${junit.suite.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- for dependency injection -->
@@ -175,7 +207,6 @@
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber7-jvm</artifactId>
-<!--            <artifactId>allure-testng</artifactId>-->
             <version>${allure.version}</version>
         </dependency>
 <!--        &lt;!&ndash; https://mvnrepository.com/artifact/io.qameta.allure/allure-maven &ndash;&gt;-->
