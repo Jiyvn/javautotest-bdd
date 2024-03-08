@@ -6,10 +6,12 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import io.restassured.specification.SpecificationQuerier;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 import page.APIs;
 
 import static helper.apiAutoHelper.curlRestConf;
@@ -31,8 +33,8 @@ public class SampleTest {
 
 //    }
 
-    @DataProvider(name = "positive_full", parallel = true)
-    public static Object[][] testData(){
+
+    public static Object[][] positive_full(){
         return new Object[][] {
                 new Object[] {
                         new RequestSpecBuilder()
@@ -50,13 +52,6 @@ public class SampleTest {
 
     }
 
-//    @Factory(dataProvider = "positive_full")
-//    public ApiConfigTest(@ParameterKey("requestSpec") RequestSpecification reqSpec,
-//                              @ParameterKey("responseSpec") ResponseSpecification resSpec) {
-//        requestSpec = reqSpec;
-//        responseSpec = resSpec;
-//    }
-
     // step logging is ineffective
     public void sendGETPostiveFullParamsRequest(){
 
@@ -67,13 +62,11 @@ public class SampleTest {
         response.then().assertThat().spec(responseSpec);
     }
 
-    @Test(
-            groups = {"unittest"},
-            dataProvider = "positive_full",
-            description = "positive: full params",
-            priority = 1
-
-    )
+    //https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests
+    @ParameterizedTest
+//    @ValueSource()
+//    @EnumSource()
+    @MethodSource("positive_full")
     public void testApiConfigPositive(RequestSpecification reqSpec, ResponseSpecification resSpec){
         log.info("test positive_full");
         requestSpec = reqSpec;
