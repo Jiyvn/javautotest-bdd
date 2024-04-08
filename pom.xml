@@ -29,7 +29,7 @@
         <commons.io.version>2.13.0</commons.io.version>
 
         <!--        <appium.client.version>7.6.0</appium.client.version>-->
-        <appium.version>9.1.0</appium.version>
+        <appium.version>9.2.2</appium.version>
         <selenium.version>4.18.1</selenium.version>
 
         <restassured.version>5.3.1</restassured.version>
@@ -40,6 +40,8 @@
         <alluremaven.version>2.12.0</alluremaven.version>
         <allure.version>2.25.0</allure.version>
         <aspectj.version>1.9.19</aspectj.version>
+        <rp.agent.cucumber.version>5.2.0</rp.agent.cucumber.version>
+        <rp.logback.version>5.1.6</rp.logback.version>
 
         <!--test config-->
         <data.threads>5</data.threads>
@@ -291,6 +293,18 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+<!--        &lt;!&ndash; reportportal &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.epam.reportportal</groupId>-->
+<!--            <artifactId>agent-java-cucumber6</artifactId>-->
+<!--            <version>${rp.agent.cucumber.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.epam.reportportal</groupId>-->
+<!--            <artifactId>logger-java-logback</artifactId>-->
+<!--            <version>${rp.logback.version}</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
