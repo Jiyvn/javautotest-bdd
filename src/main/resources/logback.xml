@@ -13,6 +13,7 @@
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
+<!--            <level>${log.console.level}</level>\-->
         </filter>
 <!--        <filter class="filters.ThreadFuzzyFilter">-->
 <!--            <threadName>main,AsyncHttpClient</threadName>-->
@@ -73,13 +74,13 @@
 <!--        <append>true</append>-->
     </appender>
 
-    <logger name="org.testng" level="debug" activity="false">
-        <appender-ref ref="FILE_TESTNG" />
-    </logger>
-    <!--only show >=warning message in CONSOLE-->
-    <logger name="org.testng.internal.Utils" level="WARN">
-        <appender-ref ref="CONSOLE" />
-    </logger>
+<!--    <logger name="org.testng" level="debug" activity="false">-->
+<!--        <appender-ref ref="FILE_TESTNG" />-->
+<!--    </logger>-->
+<!--    &lt;!&ndash;only show >=warning message in CONSOLE&ndash;&gt;-->
+<!--    <logger name="org.testng.internal.Utils" level="WARN">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--    </logger>-->
 
     <logger name="io.netty" level="debug" activity="false">
         <appender-ref ref="FILE_TESTNG" />
@@ -88,11 +89,22 @@
 <!--    <logger name="curl" level="DEBUG">-->
 <!--        <appender-ref ref="CONSOLE"/>-->
 <!--    </logger>-->
+<!--    &lt;!&ndash;customize rp output&ndash;&gt;-->
+<!--    <appender name="REPORTPORTAL" class="com.epam.reportportal.logback.appender.ReportPortalAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>__*[%level %logger]*__ %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    <logger name="com.epam.reportportal" level="WARN">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--    </logger>-->
 
     <!--set global log level and log destination/receiver-->
     <root level="trace">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE_THREAD" />
+<!--        <appender-ref ref="REPORTPORTAL" />-->
     </root>
 
 </configuration>
