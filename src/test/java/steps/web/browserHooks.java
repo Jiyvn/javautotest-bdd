@@ -1,5 +1,6 @@
 package steps.web;
 
+import auto.actions.Capturer;
 import auto.exceptions.JavAutoException;
 import helper.cucumberHelper;
 import helper.uiAutoHelper;
@@ -9,6 +10,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auto.propertyLoader;
+import utils.image.imgIO;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
 
 public class browserHooks {
     public static Logger log = LoggerFactory.getLogger(browserHooks.class);
@@ -45,9 +51,24 @@ public class browserHooks {
 //            if (state.equals(Status.FAILED) || state.equals(Status.UNDEFINED)) {
             if (state.equals(Status.FAILED)) {
                 uiAutoHelper.attachImage(cucumberHelper.getScenario().getName() + "__" + cucumberHelper.getStep().getStep().getText());
+
+//                // for reportportal https://github.com/reportportal/logger-java-logback
+                  // two model
+                  // RP_MESSAGE#FILE#FILENAME#MESSAGE_TEST
+                  // RP_MESSAGE#BASE64#BASE_64_REPRESENTATION#MESSAGE_TEST
+//                String scrFile = scenario.getName() + "_" + scenario.getStatus()+ "_"+ Calendar.getInstance().getTime().getTime()/1000+ ".png";
+//                imgIO.bytesToFileViaStream(new Capturer().captureFullScreen(uiAutoHelper.getDriver()), new File(scrFile));
+//                log.info("RP_MESSAGE#FILE#{}#{}", scrFile, "after_takeScreenshot_upload_with_file");
+//
+//                log.info(
+//                        "RP_MESSAGE#FILE#{}#{}",
+//                        imgIO.createTempPng(new Capturer().captureFullScreen(uiAutoHelper.getDriver()), "after_takeScreenshot_upload_with_file"),
+//                        "after_takeScreenshot_upload_with_file");
+//                log.info("RP_MESSAGE#BASE64#{}#{}", new Capturer().captureFullScreen(uiAutoHelper.getDriver()), "after_takeScreenshot_upload_with_base64");
+//
             }
         } catch (WebDriverException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 

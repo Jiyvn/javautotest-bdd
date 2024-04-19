@@ -21,6 +21,7 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "steps")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty,summary")
+//@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty,summary, listener.ReportPortalListener")
 public class CucumberBrowserTest {
 
         private static final Logger log = LoggerFactory.getLogger(CucumberBrowserTest.class);
