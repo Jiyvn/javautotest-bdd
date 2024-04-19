@@ -4,10 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 
 // not opencv
@@ -68,6 +65,26 @@ public class imgIO {
 
     public static void bytesToFile(byte[] bytes, File output) throws IOException {
         bufferedImageToFile(bytesToBufferedImage(bytes), output);
+    }
+
+    public static void bytesToFileViaStream(byte[] bytes, File output) throws IOException {
+        if (!new File(output.getParent()).exists()) {
+            new File(output.getParent()).mkdirs();
+        }
+        try (FileOutputStream fos = new FileOutputStream(output)) {
+            fos.write(bytes);
+        }
+    }
+    public static File createTempPng(byte[] bytes, String fileName) throws IOException {
+        return createTempFile(bytes, fileName, ".png");
+    }
+
+    public static File createTempFile(byte[] bytes, String fileName, String fileType) throws IOException {
+        File tmpFIle = File.createTempFile(fileName, fileType);
+        FileOutputStream fos = new FileOutputStream(tmpFIle);
+        fos.write(bytes);
+        fos.close();
+        return tmpFIle;
     }
 
     public static byte[] getSubImage(final BufferedImage wholeImage, Rectangle rect) throws IOException {
