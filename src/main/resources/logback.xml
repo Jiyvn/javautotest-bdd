@@ -97,7 +97,7 @@
 <!--    </appender>-->
 
 <!--    <logger name="com.epam.reportportal" level="WARN">-->
-<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="REPORTPORTAL" />-->
 <!--    </logger>-->
 
     <!--set global log level and log destination/receiver-->
