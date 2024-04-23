@@ -99,6 +99,10 @@
 <!--    <logger name="com.epam.reportportal" level="WARN">-->
 <!--        <appender-ref ref="REPORTPORTAL" />-->
 <!--    </logger>-->
+<!--    not work with binary_data_logger: https://github.com/reportportal/examples-java/blob/master/example-cucumber6/src/test/resources/logback.xml-->
+<!--    <logger name="binary_data_logger" level="TRACE" additivity="false">-->
+<!--        <appender-ref ref="REPORTPORTAL"/>-->
+<!--    </logger>-->
 
     <!--set global log level and log destination/receiver-->
     <root level="trace">
