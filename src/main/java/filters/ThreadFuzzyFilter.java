@@ -12,8 +12,12 @@ public class ThreadFuzzyFilter extends AbstractMatcherFilter<ILoggingEvent> {
     public FilterReply decide(ILoggingEvent event) {
         if (!this.isStarted()) {
             return FilterReply.NEUTRAL;
-        } else if (event.getFormattedMessage().length() > MAX_MESSAGE_LENGTH) {
-            return FilterReply.DENY;   // reject large message
+        } else if (event.getFormattedMessage().startsWith("RP_MESSAGE#BASE64#")) {
+            System.out.println("reject message: RP_MESSAGE#BASE64#");
+            return FilterReply.DENY;   // reject certain message
+        }  else if (event.getFormattedMessage().length() > MAX_MESSAGE_LENGTH) {
+            System.out.println("reject huge message > "+MAX_MESSAGE_LENGTH);
+            return FilterReply.DENY;   // reject huge message
         } else {
             for(String tn: this.threadName){
                 if(event.getThreadName().startsWith(tn)){
