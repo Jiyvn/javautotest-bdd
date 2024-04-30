@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static io.cucumber.junit.platform.engine.Constants.*;
+import static java.lang.invoke.MethodHandles.lookup;
 
 
 @Suite
@@ -24,7 +25,7 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 //@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty,summary, listener.ReportPortalListener")
 public class CucumberBrowserTest {
 
-        private static final Logger log = LoggerFactory.getLogger(CucumberBrowserTest.class);
+        private static final Logger log = LoggerFactory.getLogger(lookup().lookupClass());
 
         @BeforeAll
         public void setUpAll() throws IOException {

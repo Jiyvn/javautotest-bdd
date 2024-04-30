@@ -9,11 +9,13 @@ import io.cucumber.plugin.event.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.lang.invoke.MethodHandles.lookup;
+
 
 //reference: import io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm;
 //import io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm;
 public class cucumberListener implements ConcurrentEventListener {
-    static Logger log = LoggerFactory.getLogger(cucumberListener.class);
+    static Logger log = LoggerFactory.getLogger(lookup().lookupClass());
     private final EventHandler<TestCaseStarted> caseStartedHandler;
     private final EventHandler<TestCaseFinished> caseFinishedHandler;
     private final EventHandler<TestStepStarted> stepStartedHandler;

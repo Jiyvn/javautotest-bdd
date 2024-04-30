@@ -8,10 +8,11 @@ import io.cucumber.java.Scenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.lang.invoke.MethodHandles.lookup;
 
 
 public class CucumberHooks {
-    static Logger log = LoggerFactory.getLogger(CucumberHooks.class);
+    static Logger log = LoggerFactory.getLogger(lookup().lookupClass());
 
     @Before(order = 0)
     public void beforeScenario(Scenario scenario) {

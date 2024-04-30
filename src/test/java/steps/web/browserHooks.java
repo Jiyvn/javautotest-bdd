@@ -16,8 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
+import static java.lang.invoke.MethodHandles.lookup;
+
 public class browserHooks {
-    public static Logger log = LoggerFactory.getLogger(browserHooks.class);
+    public static Logger log = LoggerFactory.getLogger(lookup().lookupClass());
 
     protected String defaultBrowser = System.getProperty("browser", "firefox");
     protected Scenario scenario;

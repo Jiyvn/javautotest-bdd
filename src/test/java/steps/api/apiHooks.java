@@ -7,9 +7,11 @@ import io.cucumber.java.Scenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.lang.invoke.MethodHandles.lookup;
+
 public class apiHooks {
     protected Scenario scenario;
-    public static Logger log = LoggerFactory.getLogger(apiHooks.class);
+    public static Logger log = LoggerFactory.getLogger(lookup().lookupClass());
 
     @Before(order = 1, value = "@api")
     public void beforeScenario(){

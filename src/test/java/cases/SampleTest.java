@@ -16,12 +16,13 @@ import page.APIs;
 
 import static helper.apiAutoHelper.curlRestConf;
 import static io.restassured.RestAssured.given;
+import static java.lang.invoke.MethodHandles.lookup;
 import static org.hamcrest.Matchers.*;
 
 
 public class SampleTest {
 
-    private static final Logger log = LoggerFactory.getLogger(SampleTest.class);
+    private static final Logger log = LoggerFactory.getLogger(lookup().lookupClass());
     // unable to initialize here
     RequestSpecification requestSpec;
     ResponseSpecification responseSpec;

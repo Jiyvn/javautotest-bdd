@@ -13,8 +13,10 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.lang.invoke.MethodHandles.lookup;
+
 public class appHooks {
-    public static Logger log = LoggerFactory.getLogger(appHooks.class);
+    public static Logger log = LoggerFactory.getLogger(lookup().lookupClass());
 
     protected Scenario scenario;
     protected String pageSource;
