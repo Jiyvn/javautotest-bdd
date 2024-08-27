@@ -258,6 +258,7 @@ public class RemoteDevice {
         return byList;
     }
 
+    // AbstractFindByBuilder.buildByFromShortFindBy / AbstractFindByBuilder.buildByFromShortFindBy
     public By getFindBy(final FindBy findBy){
         if (findBy.id()!=null && !findBy.id().isEmpty()) {
             return By.id(findBy.id());
